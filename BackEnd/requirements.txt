@@ -1,0 +1,9 @@
+flask
+IPython
+ipdb
+pymongo
+flask_restx
+numpy
+sklearn
+plotly
+pandas
