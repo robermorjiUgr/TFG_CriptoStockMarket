@@ -163,6 +163,11 @@ g[opacity="0.4"]{
 .crypt-down{
     color: red;
 }
+
+.crypt-up{
+    color: springgreen;
+}
+
 .padding-left{
     padding-left: 30px;
 }
@@ -281,6 +286,28 @@ g[opacity="0.4"]{
     font-size: 14px;
     font-weight: 600;
 }
+
+.myButton {
+	background-color: #4786f3;
+	border-radius:42px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:11px;
+	font-weight:bold;
+	padding:9px 13px;
+	text-decoration:none;
+}
+
+.myButton:hover {
+    background-color: #085dbe;
+    color:#ffffff;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
 
 footer {
     background-color: black;
@@ -1030,6 +1057,18 @@ body{
 .last {
     margin-right: 0 !important;
     clear: right;
+}
+
+.col-title{
+    font-weight: bold !important;
+    font-size: medium !important;
+}
+
+.table-title{
+    font-weight: bolder !important;
+    font-size: larger !important;
+    text-align: center;
+    padding-top: 4px;
 }
  
 @media only screen and (max-width: 767px) {

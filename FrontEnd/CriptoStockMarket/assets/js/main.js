@@ -50,15 +50,15 @@ jQuery(document).ready(function() {
 	 	new TradingView.widget(
 		 	{
 		  		"autosize": true,
-			  	"symbol": "NASDAQ:AAPL",
+			  	"symbol": "BITSTAMP:BTCUSD",
 			  	"interval": "D",
 			  	"timezone": "Etc/UTC",
 			  	"theme": "Light",
-			  	"style": "1",
-			  	"locale": "en",
+			  	"style": "3",
+			  	"locale": "es",
 			  	"toolbar_bg": "rgba(255, 255, 255, 1)",
 			  	"enable_publishing": false,
-			  	"allow_symbol_change": true,
+			  	"allow_symbol_change": false,
 			  	"container_id": "crypt-candle-chart"
 			}
 	  	);
