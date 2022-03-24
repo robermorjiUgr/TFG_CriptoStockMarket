@@ -1,4 +1,4 @@
-# TFM_CriptoStockMarket
+# TFG_CriptoStockMarket
 
 Para la instalación del proyecto necesitamos realizar los siguientes pasos:
 
