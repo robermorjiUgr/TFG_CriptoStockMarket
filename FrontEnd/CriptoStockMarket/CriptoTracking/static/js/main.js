@@ -50,11 +50,11 @@ jQuery(document).ready(function() {
 	 	new TradingView.widget(
 		 	{
 		  		"autosize": true,
-			  	"symbol": "BITSTAMP:BTCUSD",
+				"symbol": "BITSTAMP:XRPUSD",
 			  	"interval": "D",
 			  	"timezone": "Etc/UTC",
 			  	"theme": "Light",
-			  	"style": "3",
+			  	"style": "4",
 			  	"locale": "es",
 			  	"toolbar_bg": "rgba(255, 255, 255, 1)",
 			  	"enable_publishing": false,

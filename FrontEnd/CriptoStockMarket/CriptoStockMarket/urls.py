@@ -22,4 +22,5 @@ urlpatterns = [
     path('register/', v.register, name="register"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', v.home, name="home"),
+    path('visualizar/<criptomoneda>', v.visualizar_criptomoneda, name="visualizar_criptomoneda"),
 ]

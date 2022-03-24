@@ -3,7 +3,6 @@ from flask import jsonify
 from flask import Blueprint
 from flask_restx import Api, Resource
 # from app import api
-from app.lib.machinelearning.unsupervised import clustering as clustering
 
 import pandas as pd
 
