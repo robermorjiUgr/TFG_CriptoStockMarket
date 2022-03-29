@@ -44,31 +44,29 @@ extended_collectionXRP = dbXRP["extended_data"]
 price_collectionUST = dbUST["price_data"]
 extended_collectionUST = dbUST["extended_data"]
 
+def masReciente(fecha1, fecha2):
+    # Formato fecha: YYYY-MM-DD
+    mas_reciente = False
 
-# Funcion para la insercion de los precios en cada base de datos
-def insertarPrecios(cripto, precio):
-    registro_precio = {
-        "Datetime": datetime.now(),
-        "Price": precio,
-    }
-    if cripto == "Bitcoin":
-        price_collectionBTC.insert_one(registro_precio)
-    if cripto == "Ethereum":
-        price_collectionETH.insert_one(registro_precio)
-    if cripto == "Solana":
-        price_collectionSOL.insert_one(registro_precio)
-    if cripto == "Cardano":
-        price_collectionADA.insert_one(registro_precio)
-    if cripto == "Tether":
-        price_collectionUSDT.insert_one(registro_precio)
-    if cripto == "Binance":
-        price_collectionBNC.insert_one(registro_precio)
-    if cripto == "USDCoin":
-        price_collectionUSDC.insert_one(registro_precio)
-    if cripto == "XRP":
-        price_collectionXRP.insert_one(registro_precio)
-    if cripto == "Terra":
-        price_collectionUST.insert_one(registro_precio)
+    year1 = float(fecha1[0] + fecha1[1] + fecha1[2] + fecha1[3])
+    year2 = float(fecha2[0] + fecha2[1] + fecha2[2] + fecha2[3])
+
+    month1 = float(fecha1[5] + fecha1[6])
+    month2 = float(fecha2[5] + fecha2[6])
+
+    day1 = float(fecha1[8] + fecha1[9])
+    day2 = float(fecha2[8] + fecha2[9])
+
+    if year1>year2:
+        mas_reciente = True
+    if year1 == year2:
+        if month1 > month2:
+            mas_reciente = True
+        if month1 == month2:
+            if day1 > day2:
+                mas_reciente = True
+
+    return mas_reciente
 
 # Funcion para la insercion de los precios en cada base de datos
 def insertarDatosExtendidos(cripto, precio, capital, monedas, volumen, variacion):
@@ -98,4 +96,105 @@ def insertarDatosExtendidos(cripto, precio, capital, monedas, volumen, variacion
         extended_collectionXRP.insert_one(registro_datosextendidos)
     if cripto == "Terra":
         extended_collectionUST.insert_one(registro_datosextendidos)
+
+def insertarDatosPrecios(cripto, precio):
+    # Creamos el registro
+    registro_precio = {
+        "Datetime": precio['timestamp'],
+        "Price": float(precio['price']),
+    }
+
+    if cripto == "Bitcoin":
+        if price_collectionBTC.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionBTC.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionBTC.insert_one(registro_precio)
+        else:
+            price_collectionBTC.insert_one(registro_precio)
+
+    if cripto == "Ethereum":
+        if price_collectionETH.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionETH.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionETH.insert_one(registro_precio)
+        else:
+            price_collectionETH.insert_one(registro_precio)
+
+    if cripto == "Solana":
+        if price_collectionSOL.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionSOL.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionSOL.insert_one(registro_precio)
+        else:
+            price_collectionSOL.insert_one(registro_precio)
+    if cripto == "Cardano":
+        if price_collectionADA.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionADA.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionADA.insert_one(registro_precio)
+        else:
+            price_collectionADA.insert_one(registro_precio)
+
+    if cripto == "Tether":
+        if price_collectionUSDT.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionUSDT.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionUSDT.insert_one(registro_precio)
+        else:
+            price_collectionUSDT.insert_one(registro_precio)
+
+    if cripto == "Binance":
+        if price_collectionBNC.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionBNC.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionBNC.insert_one(registro_precio)
+        else:
+            price_collectionBNC.insert_one(registro_precio)
+
+    if cripto == "USDCoin":
+        if price_collectionUSDC.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionUSDC.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionUSDC.insert_one(registro_precio)
+        else:
+            price_collectionUSDC.insert_one(registro_precio)
+
+    if cripto == "XRP":
+        if price_collectionXRP.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionXRP.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionXRP.insert_one(registro_precio)
+        else:
+            price_collectionXRP.insert_one(registro_precio)
+
+    if cripto == "Terra":
+        if price_collectionUST.find_one(sort=[('_id', -1)]) != None:
+            lastdate = price_collectionUST.find_one(sort=[('_id', -1)])['Datetime']
+            if masReciente(precio['timestamp'], lastdate):
+                price_collectionUST.insert_one(registro_precio)
+        else:
+            price_collectionUST.insert_one(registro_precio)
+
+
+def consultarDatosExtendidos(cripto):
+    if cripto == "Bitcoin":
+        datos = extended_collectionBTC.find_one(sort=[('_id', -1)])
+    if cripto == "Ethereum":
+        datos = extended_collectionETH.find_one(sort=[('_id', -1)])
+    if cripto == "Solana":
+        datos = extended_collectionSOL.find_one(sort=[('_id', -1)])
+    if cripto == "Cardano":
+        datos = extended_collectionADA.find_one(sort=[('_id', -1)])
+    if cripto == "Tether":
+        datos = extended_collectionUSDT.find_one(sort=[('_id', -1)])
+    if cripto == "Binance":
+        datos = extended_collectionBNC.find_one(sort=[('_id', -1)])
+    if cripto == "USDCoin":
+        datos = extended_collectionUSDC.find_one(sort=[('_id', -1)])
+    if cripto == "XRP":
+        datos = extended_collectionXRP.find_one(sort=[('_id', -1)])
+    if cripto == "Terra":
+        datos = extended_collectionUST.find_one(sort=[('_id', -1)])
+
+    return datos
 

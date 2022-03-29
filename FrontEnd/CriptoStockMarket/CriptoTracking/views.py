@@ -1,5 +1,6 @@
 import sys
 import fileinput
+import json
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
@@ -24,11 +25,11 @@ def visualizar_criptomoneda(request, criptomoneda):
     for line in fileinput.input([archivo], inplace=True):
         if line.strip().startswith('"symbol": '):
             if (criptomoneda == 'Bitcoin'):
-                line = '\t\t\t\t"symbol": "BITSTAMP:BTCUSD",\n'
+                line = '\t\t\t\t"symbol": "COINBASE:BTCUSD",\n'
             if (criptomoneda == 'Ethereum'):
                 line = '\t\t\t\t"symbol": "COINBASE:ETHUSD",\n'
             if (criptomoneda == 'Solana'):
-                line = '\t\t\t\t"symbol": "FTX:SOLUSD",\n'
+                line = '\t\t\t\t"symbol": "COINBASE:SOLUSD",\n'
             if (criptomoneda == 'Cardano'):
                 line = '\t\t\t\t"symbol": "COINBASE:ADAUSD",\n'
             if (criptomoneda == 'Tether'):
@@ -38,10 +39,13 @@ def visualizar_criptomoneda(request, criptomoneda):
             if (criptomoneda == 'USDCoin'):
                 line = '\t\t\t\t"symbol": "BINANCEUS:USDCUSD",\n'
             if (criptomoneda == 'XRP'):
-                line = '\t\t\t\t"symbol": "BITSTAMP:XRPUSD",\n'
+                line = '\t\t\t\t"symbol": "COINBASE:XRPUSD",\n'
             if (criptomoneda == 'Terra'):
                 line = '\t\t\t\t"symbol": "COINBASE:USTUSD",\n'
         sys.stdout.write(line)
 
-    return redirect("/")
+        return redirect("/")
+
+def resumen_criptomonedas(request):
+    return render(request, "cripto-overview.html")
 

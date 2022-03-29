@@ -39,6 +39,7 @@ def textToNumber(texto):
 
         return float(numero)
 
+# Convierte texto en formato: [1..9]% a número
 def percentToNumber(texto):
         numero =''
         for caracter in texto:
@@ -48,9 +49,7 @@ def percentToNumber(texto):
         return float(numero.replace('−', '-'))
 
 def main():
-        #----------------------------------- PRIMER WEBSCRAPING ------------------------------------
-        # Tiene como objetivo conocer que datos va a contener cada columna, de manera que en el caso
-        # en el que haya cambios en el orden de las mismas, este cambio no afecte al almacenamiento
+        #----------------------------------- WEBSCRAPING ------------------------------------
 
         # Indicamos el navegador a utilizar y quien va a realizar esa operacion
         user_agent = 'Mozilla (macOS Big Sur 11.6) JulioCampos Firefox 98.0.1'
@@ -87,7 +86,7 @@ def main():
         admindata.insertarDatosExtendidos("Bitcoin", precio[0], cap, coins, volume, change)
 
         precio = ethereum["Última"].values
-        capETH = textToNumber(ethereum["Capitalización de mercado"].values[0])
+        cap = textToNumber(ethereum["Capitalización de mercado"].values[0])
         coins = textToNumber(ethereum["Total monedas"].values[0])
         volume = textToNumber(ethereum["Volumen negociado"].values[0])
         change = percentToNumber(ethereum["% de cambio"].values[0])
