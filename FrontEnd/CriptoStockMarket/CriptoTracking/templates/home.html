@@ -58,11 +58,10 @@
 								  </thead>
 								  <tbody class="crypt-table-hover">
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/bitcoin.png' %}" width="50"> <strong>BITCOIN</strong></td>
-									  <td class="crypt-down align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.04356</span></td>
-									  <td>
-										  <span class="d-block">5.3424</span>
-										  <b class="crypt-down">-7.4%</b>
+									  <td class="align-middle"><img class="crypt-star pr-2" alt="star" src="{% static 'images/coins/bitcoin.png' %}" width="40"> <strong>BTC</strong></td>
+									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05"> {{ Data.BTC.Price }}$ </span></td>
+									  <td class="align-middle">
+										  <span class="d-block">{{ Data.BTC.Volume }}$</span>
 									  </td>
 									  <td>
                                           <form action="visualizar/Bitcoin" method='GET'>
@@ -71,11 +70,10 @@
 									  </td>
 								  </tr>
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/ethereum.png' %}" width="50"> <strong>ETHEREUM</strong></td>
-									  <td class="crypt-down align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.00005640</span></td>
-									  <td>
-										  <span class="d-block">6.6768876</span>
-										  <b class="crypt-up">+6.7%</b>
+									  <td class="align-middle"><img class="crypt-star pr-2" alt="star" src="{% static 'images/coins/ethereum.png' %}" width="40"> <strong>ETH</strong></td>
+									  <td class=" align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05"> {{ Data.ETH.Price }}$ </span></td>
+									  <td class="align-middle">
+										  <span class="d-block">{{ Data.ETH.Volume }}$</span>
 									  </td>
 									  <td>
 										  <form action="visualizar/Ethereum" method='GET'>
@@ -84,50 +82,46 @@
 									  </td>
 								  </tr>
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/solana.png' %}" width="50"> <strong>SOLANA</strong></td>
-									  <td class="crypt-down align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.00002340</span></td>
-									  <td>
-										  <span class="d-block">6.6768876</span>
-										  <b class="crypt-down">-7.7%</b>
+									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/solana.png' %}" width="40"> <strong>SOL</strong></td>
+									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">{{ Data.SOL.Price }}$</span></td>
+									  <td class="align-middle">
+										  <span class="d-block">{{ Data.SOL.Volume }}$</span>
 									  </td>
-									  <td>
+									  <td >
 										  <form action="visualizar/Solana" method='GET'>
 										    <button type='submit' class="myButton">Visualizar</button>
                                           </form>
 									  </td>
 								  </tr>
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/cardano.png' %}" width="50"> <strong>CARDANO</strong></td>
-									  <td class="crypt-up align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.00003644</span></td>
-									  <td>
-										  <span class="d-block">6.6768876</span>
-										  <b class="crypt-up">+3.7%</b>
+									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/cardano.png' %}" width="40"> <strong>ADA</strong></td>
+									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">{{ Data.ADA.Price }}$</span></td>
+									  <td class="align-middle">
+										  <span class="d-block">{{ Data.ADA.Volume }}$</span>
 									  </td>
-									  <td>
+									  <td class="align-middle">
 										  <form action="visualizar/Cardano" method='GET'>
 										    <button type='submit' class="myButton">Visualizar</button>
                                           </form>
 									  </td>
 								  </tr>
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/tether.png' %}" width="50"> <strong>TETHER</strong></td>
-									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.00063440</span></td>
-									  <td>
-										  <span class="d-block">6.6768876</span>
-										  <span>3.7%</span>
+									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/tether.png' %}" width="40"> <strong>USDT</strong></td>
+									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">{{ Data.USDT.Price }}$</span></td>
+									  <td class="align-middle">
+										  <span class="d-block">{{ Data.USDT.Volume }}$</span>
 									  </td>
-									  <td>
+									  <td class="align-middle">
 										  <form action="visualizar/Tether" method='GET'>
 										    <button type='submit' class="myButton">Visualizar</button>
                                           </form>
 									  </td>
 								  </tr>
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/binance.png' %}" width="50"> <strong>BINANCE</strong></td>
-									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.00063440</span></td>
-									  <td>
-										  <span class="d-block">6.6768876</span>
-										  <span>3.7%</span>
+									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/binance.png' %}" width="40"> <strong>BNB</strong></td>
+									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">{{ Data.BNC.Price }}$</span></td>
+									  <td class="align-middle">
+										  <span class="d-block">{{ Data.BNC.Volume }}$</span>
 									  </td>
 									  <td>
 										  <form action="visualizar/Binance" method='GET'>
@@ -136,11 +130,10 @@
 									  </td>
 								  </tr>
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/usdc.png' %}" width="50"> <strong>USD Coin</strong></td>
-									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.00063440</span></td>
-									  <td>
-										  <span class="d-block">6.6768876</span>
-										  <span>3.7%</span>
+									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/usdc.png' %}" width="40"> <strong>USDC</strong></td>
+									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">{{ Data.USDC.Price }}$</span></td>
+									  <td class="align-middle">
+										  <span class="d-block">{{ Data.USDC.Volume }}$</span>
 									  </td>
 									  <td>
 										  <form action="visualizar/USDCoin" method='GET'>
@@ -149,11 +142,10 @@
 									  </td>
 								  </tr>
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/xrp.png' %}" width="50"> <strong>XRP</strong></td>
-									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.00063440</span></td>
-									  <td>
-										  <span class="d-block">6.6768876</span>
-										  <span>3.7%</span>
+									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/xrp.png' %}" width="40"> <strong>XRP</strong></td>
+									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">{{ Data.XRP.Price }}$</span></td>
+									  <td class="align-middle">
+										  <span class="d-block">{{ Data.XRP.Volume }}$</span>
 									  </td>
 									  <td>
 										  <form action="visualizar/XRP" method='GET'>
@@ -162,11 +154,10 @@
 									  </td>
 								  </tr>
 								  <tr>
-									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/terra.png' %}" width="50"> <strong>TERRA</strong></td>
-									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">0.00063440</span></td>
-									  <td>
-										  <span class="d-block">6.6768876</span>
-										  <span>3.7%</span>
+									  <td class="align-middle"><img class="crypt-star pr-1" alt="star" src="{% static 'images/coins/terra.png' %}" width="40"> <strong>UST</strong></td>
+									  <td class="align-middle"><span class="pr-2" data-toggle="tooltip" data-placement="right" title="$ 0.05">{{ Data.Terra.Price }}$</span></td>
+                                      <td class="align-middle">
+										  <span class="d-block">{{ Data.Terra.Volume }}$</span>
 									  </td>
 									  <td>
 										  <form action="visualizar/Terra" method='GET'>
@@ -184,26 +175,6 @@
 			<div class="col-md-6 col-lg-8 col-xxl-7 col-xxl-7">
 				<div class="crypt-gross-market-cap mt-4 mb-3">
 					<div class="row">
-						<div class="col-3 col-sm-6 col-md-6 col-lg-6">
-							<div class="row">
-								<div class="col-sm-6 col-md-4 col-lg-6">
-									<p>Última Cotización</p>
-									<p>$0.04</p>
-								</div>
-								<div class="col-sm-6 col-md-4 col-lg-6">
-									<p>Capitalización de mercado</p>
-									<p class="crypt-down">-3.35%</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-3 col-sm-2 col-md-2 col-lg-2">
-							<p>Volumen negociado</p>
-							<p class="crypt-up">0.435453</p>
-						</div>
-						<div class="col-6 col-sm-6 col-md-4 col-lg-4">
-							<p>% de cambio</p>
-							<p class="crypt-down">0.09945</p>
-						</div>
 					</div>
 				</div>
 				<!-- TradingView Widget BEGIN -->

@@ -1,5 +1,6 @@
 import sys
 import fileinput
+import requests
 import json
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -18,7 +19,80 @@ def register(request):
     return render(request, "registration/register.html", {"form": form})
 
 def home(request):
-    return render(request, "home.html")
+    datos = get_datos()
+    return render(request, "home.html", {"Data": datos})
+
+def get_datos():
+    # GET BITCOIN DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedBitcoin'
+    req = requests.get(url=url_req, headers=headers)
+    btc_data = req.json()
+    # GET ETHEREUM DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedEthereum'
+    req = requests.get(url=url_req, headers=headers)
+    eth_data = req.json()
+    # GET SOLANA DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedSolana'
+    req = requests.get(url=url_req, headers=headers)
+    sol_data = req.json()
+    # GET CARDANO DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedCardano'
+    req = requests.get(url=url_req, headers=headers)
+    ada_data = req.json()
+    # GET TETHER DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedTether'
+    req = requests.get(url=url_req, headers=headers)
+    usdt_data = req.json()
+    # GET BINANCE DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedBinance'
+    req = requests.get(url=url_req, headers=headers)
+    bnc_data = req.json()
+    # GET USDCoin DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedUSDCoin'
+    req = requests.get(url=url_req, headers=headers)
+    usdc_data = req.json()
+    # GET XRP DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedXRP'
+    req = requests.get(url=url_req, headers=headers)
+    xrp_data = req.json()
+    # GET TERRA DATA
+    headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+    url_req = 'http://localhost:5000/criptosocket/getExtendedTerra'
+    req = requests.get(url=url_req, headers=headers)
+    terra_data = req.json()
+
+    marketcap_total = btc_data['MarketCap'] + eth_data['MarketCap'] + sol_data['MarketCap'] + ada_data['MarketCap'] + usdt_data['MarketCap'] + bnc_data['MarketCap'] + usdc_data['MarketCap'] + xrp_data['MarketCap'] + terra_data['MarketCap']
+    datos = {'BTC': btc_data,
+             'ETH': eth_data,
+             'SOL': sol_data,
+             'ADA': ada_data,
+             'USDT': usdt_data,
+             'BNC': bnc_data,
+             'USDC': usdc_data,
+             'XRP' : xrp_data,
+             'Terra': terra_data,
+             'TotalMC': marketcap_total
+            }
+
+    return datos
+
 
 def visualizar_criptomoneda(request, criptomoneda):
     archivo = './CriptoTracking/static/js/main.js'
@@ -44,8 +118,8 @@ def visualizar_criptomoneda(request, criptomoneda):
                 line = '\t\t\t\t"symbol": "COINBASE:USTUSD",\n'
         sys.stdout.write(line)
 
-        return redirect("/")
+    return redirect('/')
 
 def resumen_criptomonedas(request):
-    return render(request, "cripto-overview.html")
-
+    datos = get_datos()
+    return render(request, "cripto-overview.html", {"Data": datos})

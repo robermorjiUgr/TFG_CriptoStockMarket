@@ -1,5 +1,6 @@
 import pymongo
 from datetime import datetime
+from dateutil.parser import parse
 import json
 
 # Establecemos conexion y creamos las bases de datos (una para cada cripto)
@@ -45,26 +46,13 @@ price_collectionUST = dbUST["price_data"]
 extended_collectionUST = dbUST["extended_data"]
 
 def masReciente(fecha1, fecha2):
-    # Formato fecha: YYYY-MM-DD
     mas_reciente = False
 
-    year1 = float(fecha1[0] + fecha1[1] + fecha1[2] + fecha1[3])
-    year2 = float(fecha2[0] + fecha2[1] + fecha2[2] + fecha2[3])
+    date1 = parse(fecha1)
+    date2 = parse(fecha2)
 
-    month1 = float(fecha1[5] + fecha1[6])
-    month2 = float(fecha2[5] + fecha2[6])
-
-    day1 = float(fecha1[8] + fecha1[9])
-    day2 = float(fecha2[8] + fecha2[9])
-
-    if year1>year2:
+    if date1 > date2:     # date1 es mas reciente que date2
         mas_reciente = True
-    if year1 == year2:
-        if month1 > month2:
-            mas_reciente = True
-        if month1 == month2:
-            if day1 > day2:
-                mas_reciente = True
 
     return mas_reciente
 
@@ -76,7 +64,7 @@ def insertarDatosExtendidos(cripto, precio, capital, monedas, volumen, variacion
         "MarketCap": capital,
         "Coins": monedas,
         "Volume": volumen,
-        "%": variacion,
+        "Change": variacion,
     }
     if cripto == "Bitcoin":
         extended_collectionBTC.insert_one(registro_datosextendidos)
@@ -195,6 +183,28 @@ def consultarDatosExtendidos(cripto):
         datos = extended_collectionXRP.find_one(sort=[('_id', -1)])
     if cripto == "Terra":
         datos = extended_collectionUST.find_one(sort=[('_id', -1)])
+
+    return datos
+
+def consultarPrecios(cripto):
+    if cripto == "Bitcoin":
+        datos = price_collectionBTC.find()
+    if cripto == "Ethereum":
+        datos = price_collectionETH.find()
+    if cripto == "Solana":
+        datos = price_collectionSOL.find()
+    if cripto == "Cardano":
+        datos = price_collectionADA.find()
+    if cripto == "Tether":
+        datos = price_collectionUSDT.find()
+    if cripto == "Binance":
+        datos = price_collectionBNC.find()
+    if cripto == "USDCoin":
+        datos = price_collectionUSDC.find()
+    if cripto == "XRP":
+        datos = price_collectionXRP.find()
+    if cripto == "Terra":
+        datos = price_collectionUST.find()
 
     return datos
 
