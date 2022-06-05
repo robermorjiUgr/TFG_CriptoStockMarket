@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
 	jQuery('[data-toggle="tooltip"]').tooltip();
 
 	jQuery('#crypt-tab a').on('click', function (e) {
-	  	
+
 	  	e.preventDefault();
 
 	  	var x = jQuery(this).attr('href');
@@ -50,15 +50,15 @@ jQuery(document).ready(function() {
 	 	new TradingView.widget(
 		 	{
 		  		"autosize": true,
-				"symbol": "BITSTAMP:XRPUSD",
+				"symbol": "COINBASE:ETHUSD",
 			  	"interval": "D",
 			  	"timezone": "Etc/UTC",
 			  	"theme": "Light",
-			  	"style": "4",
-			  	"locale": "es",
+			  	"style": "1",
+			  	"locale": "en",
 			  	"toolbar_bg": "rgba(255, 255, 255, 1)",
 			  	"enable_publishing": false,
-			  	"allow_symbol_change": false,
+			  	"allow_symbol_change": true,
 			  	"container_id": "crypt-candle-chart"
 			}
 	  	);

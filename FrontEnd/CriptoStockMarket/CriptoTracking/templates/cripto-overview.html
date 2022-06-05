@@ -26,7 +26,7 @@
 					<div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block d-lg-block">
                         <ul class="crypt-heading-menu fright">
                             <li><a href="http://127.0.0.1:8000/">Criptomonedas</a></li>
-                            <li><a href="http://127.0.0.1:8000/resumen">Resumen</a></li>
+                            <li><a href="http://127.0.0.1:8000/resumen/MarketCap/1">Resumen</a></li>
                             <li><a href="marketcap.html">Predictor</a></li>
                             <li><a href="trading.html">Simulador</a></li>
                             <li class="crypt-box-menu menu-blue"><a href="http://127.0.0.1:8000/register">Registrar</a></li>
@@ -56,147 +56,54 @@
 					      <th scope="col"></th>
 					      <th scope="col" class="text-left pl-2">Nombre</th>
 					      <th scope="col">Capitalización de mercado</th>
-					      <th scope="col">Precio ($)</th>
-					      <th scope="col">Volumen negociado</th>
-					      <th scope="col">Variación 24H (%)</th>
+                          <th scope="col">
+                              {% if  Campo == "Price" %}
+                                {% if  Orden == 1 %}
+                                    <a href="http://127.0.0.1:8000/resumen/Price/-1">Precio ▲</a>
+                                {% else %}
+                                    <a href="http://127.0.0.1:8000/resumen/Price/1">Precio ▼</a>
+                                {% endif %}
+                              {% else %}
+                                  <a href="http://127.0.0.1:8000/resumen/Price/1">Precio</a>
+                              {% endif %}
+                          </th>
+                          <th scope="col">
+                              {% if  Campo == "Volume" %}
+                                {% if  Orden == 1 %}
+                                    <a href="http://127.0.0.1:8000/resumen/Volume/-1">Volumen negociado ▲</a>
+                                {% else %}
+                                    <a href="http://127.0.0.1:8000/resumen/Volume/1">Volumen negociado ▼</a>
+                                {% endif %}
+                              {% else %}
+                                  <a href="http://127.0.0.1:8000/resumen/Volume/1">Volumen negociado</a>
+                              {% endif %}
+                          </th>
+					      <th scope="col">
+                              {% if  Campo == "Change" %}
+                                {% if  Orden == 1 %}
+                                    <a href="http://127.0.0.1:8000/resumen/Change/-1">Variacion 24H ▲</a>
+                                {% else %}
+                                    <a href="http://127.0.0.1:8000/resumen/Change/1">Variacion 24H ▼</a>
+                                {% endif %}
+                              {% else %}
+                                  <a href="http://127.0.0.1:8000/resumen/Change/1">Variacion 24H</a>
+                              {% endif %}
+                          </th>
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <tr>
-					      <th>1</th>
-					      <td class="text-left pl-2 font-weight-bold"><img width="80" src="{% static 'images/coins/bitcoin.png' %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html">BITCOIN</a></td>
-					      <td>{{Data.BTC.MarketCap}}$</td>
-					      <td>{{Data.BTC.Price}}$</td>
-					      <td>{{Data.BTC.Volume}}$</td>
-					      <td class="crypt-up"> {{Data.BTC.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]" 
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
-					    <tr>
-					      <th>2</th>
-					      <td class="text-left pl-2 font-weight-bold"><img src="{% static 'images/coins/ethereum.png' %}" width="80" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html">ETHEREUM</a></td>
-					      <td>{{Data.ETH.MarketCap}}$</td>
-					      <td>{{Data.ETH.Price}}$</td>
-					      <td>{{Data.ETH.Volume}}$</td>
-					      <td class="crypt-down">{{Data.ETH.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]"
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
-					    <tr>
-					      <th>3</th>
-					      <td class="text-left pl-2 font-weight-bold"><img src="{% static 'images/coins/tether.png' %}" width="80" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html"> TETHER</a></td>
-					      <td>{{Data.USDT.MarketCap}}$</td>
-					      <td>{{Data.USDT.Price}}$</td>
-					      <td>{{Data.USDT.Volume}}$</td>
-					      <td class="crypt-down">{{Data.USDT.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]"
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
-					    <tr>
-					      <th>4</th>
-					      <td class="text-left pl-2 font-weight-bold"><img src="{% static 'images/coins/binance.png' %}" width="80" class="pr-1 crypt-market-cap-logo" alt="coin"><a href="index.html"> BINANCE</a></td>
-					      <td>{{Data.BNC.MarketCap}}$</td>
-					      <td>{{Data.BNC.Price}}$</td>
-					      <td>{{Data.BNC.Volume}}$</td>
-					      <td class="crypt-down">{{Data.BNC.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]"
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
-					    <tr>
-					      <th>5</th>
-					      <td class="text-left pl-2 font-weight-bold"><img src="{% static 'images/coins/usdc.png' %}" width="80" class="pr-1 crypt-market-cap-logo" alt="coin"><a href="index.html"> USD Coin</a></td>
-					      <td>{{Data.USDC.MarketCap}}$</td>
-					      <td>{{Data.USDC.Price}}$</td>
-					      <td>{{Data.USDC.Volume}}$</td>
-					      <td class="crypt-up">{{Data.USDC.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]"
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
-					    <tr>
-					      <th>6</th>
-					      <td class="text-left pl-2 font-weight-bold"><img src="{% static 'images/coins/xrp.png' %}" width="80" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html">XRP</a></td>
-					      <td>{{Data.XRP.MarketCap}}$</td>
-					      <td>{{Data.XRP.Price}}$</td>
-					      <td>{{Data.XRP.Volume}}$</td>
-					      <td class="crypt-down">{{Data.XRP.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]"
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
-					    <tr>
-					      <th>7</th>
-					      <td class="text-left pl-2 font-weight-bold"><img src="{% static 'images/coins/cardano.png' %}" width="80" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html"> CARDANO</a></td>
-					      <td>{{Data.ADA.MarketCap}}$</td>
-					      <td>{{Data.ADA.Price}}$</td>
-					      <td>{{Data.ADA.Volume}}$</td>
-					      <td class="crypt-down">{{Data.ADA.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]"
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
-					    <tr>
-					      <th>8</th>
-					      <td class="text-left pl-2 font-weight-bold"><img src="{% static 'images/coins/terra.png' %}" width="80" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html"> TERRA</a></td>
-					      <td>{{Data.Terra.MarketCap}}$</td>
-					      <td>{{Data.Terra.Price}}$</td>
-					      <td>{{Data.Terra.Volume}}$</td>
-					      <td class="crypt-down">{{Data.Terra.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]"
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
-					    <tr>
-					      <th>9</th>
-					      <td class="text-left pl-2 font-weight-bold"><img src="{% static 'images/coins/solana.png' %}" width="80" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html"> SOLANA</a></td>
-					      <td>{{Data.SOL.MarketCap}}$</td>
-					      <td>{{Data.SOL.Price}}$</td>
-					      <td>{{Data.SOL.Volume}}$</td>
-					      <td class="crypt-down">{{Data.SOL.Change}}%</td>
-					      <!--<td
-			      			class ="crypt-marketcap-canvas"
-			      			data-charts ="[65,59,81,81,56,55,40,80,90]"
-			      			data-bg = "fcbcb3"
-			      			data-border = "8cd8aa">
-				      		<canvas></canvas>
-				      	  </td>-->
-					    </tr>
+                      {%  for key,coin in Data %}
+                        {% if key != "TotalMC" %}
+                            <tr>
+                              <th>{{ forloop.counter }}</th>
+                              <td class="text-left pl-2 font-weight-bold"><img width="80" src="{% static coin.img %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html">{{ key }}</a></td>
+                              <td>{{coin.MarketCap}}$</td>
+                              <td>{{coin.Price}}$</td>
+                              <td>{{coin.Volume}}$</td>
+                              <td class="crypt-up"> {{coin.Change}}%</td>
+                            </tr>
+                        {% endif %}
+                      {% endfor %}
 					  </tbody>
 					</table>
 				</div>
@@ -206,7 +113,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="text-center">
-					<h1 class="mt-5 mb-3"><b>Capitalización de mercado total:<span class="crypt-up">{{Data.TotalMC}}$</span></b></h1>
+					<h1 class="mt-5 mb-3"><b>Capitalización de mercado total:<span class="crypt-up">{{TotalMC}}$</span></b></h1>
 					<p class="mb-5">Última actualización de TradingView: {{Data.BTC.Datetime}}</p>
 				</div>
 			</div>

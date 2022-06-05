@@ -76,7 +76,7 @@ def main():
         binance = df.loc[df["NombreNo se encontraron coincidencias"]=='Binance Coin']
         usdc = df.loc[df["NombreNo se encontraron coincidencias"]=='USD Coin']
         xrp = df.loc[df["NombreNo se encontraron coincidencias"]=='XRP']
-        terra = df.loc[df["NombreNo se encontraron coincidencias"]=='Terra']
+        terra = df.loc[df["NombreNo se encontraron coincidencias"]=='TerraUSD']
 
         precio = bitcoin["Última"].values
         cap = textToNumber(bitcoin["Capitalización de mercado"].values[0])

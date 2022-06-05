@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from CriptoTracking.forms import RegisterForm
+from collections import OrderedDict
 
 def register(request):
     if request.method == "POST":
@@ -91,8 +92,17 @@ def get_datos():
              'TotalMC': marketcap_total
             }
 
-    return datos
+    datos['BTC']['img'] = 'images/coins/BTC.png'
+    datos['ETH']['img'] = 'images/coins/ETH.png'
+    datos['SOL']['img'] = 'images/coins/SOL.png'
+    datos['ADA']['img'] = 'images/coins/ADA.png'
+    datos['USDT']['img'] = 'images/coins/USDT.png'
+    datos['BNC']['img'] = 'images/coins/BNC.png'
+    datos['USDC']['img'] = 'images/coins/USDC.png'
+    datos['XRP']['img'] = 'images/coins/XRP.png'
+    datos['Terra']['img'] = 'images/coins/Terra.png'
 
+    return datos
 
 def visualizar_criptomoneda(request, criptomoneda):
     archivo = './CriptoTracking/static/js/main.js'
@@ -120,6 +130,28 @@ def visualizar_criptomoneda(request, criptomoneda):
 
     return redirect('/')
 
-def resumen_criptomonedas(request):
+def ordenarCripto(datos, field, orden):
+    lista_monedas = []
+    for moneda in datos.items():
+        if (moneda[0] != "TotalMC"):
+            lista_monedas.append(moneda)
+    n = len(lista_monedas)
+
+    for i in range(n):
+        for j in range(n - i - 1):
+            if (orden == 1):
+                if (lista_monedas[j][1][field]) > (lista_monedas[j+1][1][field]):
+                    lista_monedas[j], lista_monedas[j + 1] = lista_monedas[j + 1], lista_monedas[j]
+            if(orden == -1):
+                if (lista_monedas[j][1][field]) < (lista_monedas[j+1][1][field]):
+                    lista_monedas[j], lista_monedas[j + 1] = lista_monedas[j + 1], lista_monedas[j]
+
+    return lista_monedas
+
+def resumen_criptomonedas(request, campo, orden):
     datos = get_datos()
-    return render(request, "cripto-overview.html", {"Data": datos})
+    if (campo != "Price" or campo != "Volume" or campo != "Change" or orden != 1 or orden != -1):
+        datos_ordenados = ordenarCripto(datos,"MarketCap", 1)
+    else:
+        datos_ordenados = ordenarCripto(datos,campo, orden)
+    return render(request, "cripto-overview.html", {"Data": datos_ordenados, "TotalMC" : datos["TotalMC"], "Campo" : campo, "Orden" : orden})
