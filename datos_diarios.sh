@@ -1,6 +1,4 @@
 #!/bin/sh
 
-cd Users/juliocamposrodriguez/Desktop/TFG/Proyecto/TFG_CriptoStockMarket/BackEnd
-source criptoEnv/bin/activate
-cd app/criptosocket
-python3 bot_prices.py
+source /Users/juliocamposrodriguez/Desktop/TFG/Proyecto/TFG_CriptoStockMarket/BackEnd/criptoEnv/bin/activate
+python3 /Users/juliocamposrodriguez/Desktop/TFG/Proyecto/TFG_CriptoStockMarket/BackEnd/app/criptosocket/bot_extended_data.py

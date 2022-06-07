@@ -50,7 +50,7 @@ jQuery(document).ready(function() {
 	 	new TradingView.widget(
 		 	{
 		  		"autosize": true,
-				"symbol": "COINBASE:SOLUSD",
+				"symbol": "COINBASE:ETHUSD",
 			  	"interval": "D",
 			  	"timezone": "Etc/UTC",
 			  	"theme": "Light",

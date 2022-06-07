@@ -139,10 +139,10 @@ def ordenarCripto(datos, field, orden):
 
     for i in range(n):
         for j in range(n - i - 1):
-            if (orden == 1):
+            if (orden == '1'):
                 if (lista_monedas[j][1][field]) > (lista_monedas[j+1][1][field]):
                     lista_monedas[j], lista_monedas[j + 1] = lista_monedas[j + 1], lista_monedas[j]
-            if(orden == -1):
+            if(orden == '-1'):
                 if (lista_monedas[j][1][field]) < (lista_monedas[j+1][1][field]):
                     lista_monedas[j], lista_monedas[j + 1] = lista_monedas[j + 1], lista_monedas[j]
 
@@ -150,8 +150,5 @@ def ordenarCripto(datos, field, orden):
 
 def resumen_criptomonedas(request, campo, orden):
     datos = get_datos()
-    if (campo != "Price" or campo != "Volume" or campo != "Change" or orden != 1 or orden != -1):
-        datos_ordenados = ordenarCripto(datos,"MarketCap", 1)
-    else:
-        datos_ordenados = ordenarCripto(datos,campo, orden)
+    datos_ordenados = ordenarCripto(datos,campo, orden)
     return render(request, "cripto-overview.html", {"Data": datos_ordenados, "TotalMC" : datos["TotalMC"], "Campo" : campo, "Orden" : orden})
