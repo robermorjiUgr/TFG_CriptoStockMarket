@@ -9,13 +9,9 @@
     <link rel="stylesheet" href="{% static 'css/icons.css' %}">
     <link rel="stylesheet" href="{% static 'css/ui.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        $(document).ready( function () {
-            $('#table_id').DataTable();
-        } );
-    </script>
 </head>
 <body>
+{% with url="http://127.0.0.1:8000" %}
 	<header>
 		<div class="container-full-width">
 			<div class="crypt-header">
@@ -24,19 +20,28 @@
 						<div class="row">
 							<div class="col-xs-2">
 								<div class="crypt-logo">
-                                    <a href="http://127.0.0.1:8000/"><img src="{% static 'images/ownlogoB.png' %}" alt=""></a>
+                                    <a href={{ url }}><img src="{% static 'images/ownlogoB.png' %}" alt=""></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block d-lg-block">
                         <ul class="crypt-heading-menu fright">
-                            <li><a href="http://127.0.0.1:8000/">Criptomonedas</a></li>
-                            <li><a href="http://127.0.0.1:8000/resumen/MarketCap/1">Resumen</a></li>
+                            <li><a href={{ url }}>Criptomonedas</a></li>
+                            <li><a href="{{ url }}/resumen">Resumen</a></li>
                             <li><a href="marketcap.html">Predictor</a></li>
                             <li><a href="trading.html">Simulador</a></li>
-                            <li class="crypt-box-menu menu-blue"><a href="http://127.0.0.1:8000/register">Registrar</a></li>
-                            <li class="crypt-box-menu menu-green"><a href="http://127.0.0.1:8000/accounts/login">Iniciar Sesión</a></li>
+                            {% if request.user.is_authenticated %}
+                                <li>
+                                    <em>
+                                       <a href="{{url}}/userProfile">Mi cuenta: {{ request.user.username }}</a>
+                                       <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
+                                    </em>
+                                </li>
+                            {% else %}
+                                <li class="crypt-box-menu menu-blue"><a href="{{url}}/register">Registrar</a></li>
+                                <li class="crypt-box-menu menu-green"><a href="{{url}}/accounts/login">Iniciar Sesión</a></li>
+                            {% endif %}
                         </ul>
                     </div><i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i>
 					<i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i>
@@ -56,57 +61,52 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
+                <button id="mostrar-filtrado" class="boton-filtrado">Filtrar criptomonedas</button>
+
+                <div id="filter-data">
+                    <button class="boton-cerrar" type="button" id="cerrar-filtrado">
+                        <img class = "imagen-cerrar" src = "{% static 'images/close.png' %}"/>
+                    </button>
+                    <p>
+                        Precio mínimo:
+                        <input type="text" id="min_price" name="min">
+                        Precio máximo:
+                        <input type="text" id="max_price" name="max">
+                    </p>
+                    <p>
+                        Volumen mínimo:
+                        <input type="text" id="min_volume" name="min">
+                        Volumen máximo:
+                        <input type="text" id="max_volume" name="max">
+                    </p>
+                    <p>
+                        Variacion mínima:
+                        <input type="text" id="min_change" name="min">
+                        Variacion máxima:
+                        <input type="text" id="max_change" name="max">
+                    </p>
+                </div>
 					<table class="table table-striped crypt-table-market-cap" id="table_id">
 					  <thead>
 					    <tr>
 					      <th scope="col"></th>
 					      <th scope="col" class="text-left pl-2">Nombre</th>
-					      <th scope="col">Capitalización de mercado</th>
-                          <th scope="col">
-                              {% if  Campo == "Price" %}
-                                {% if  Orden == '1' %}
-                                    <a href="http://127.0.0.1:8000/resumen/Price/-1">Precio ▲</a>
-                                {% else %}
-                                    <a href="http://127.0.0.1:8000/resumen/Price/1">Precio ▼</a>
-                                {% endif %}
-                              {% else %}
-                                  <a href="http://127.0.0.1:8000/resumen/Price/1">Precio</a>
-                              {% endif %}
-                          </th>
-                          <th scope="col">
-                              {% if  Campo == "Volume" %}
-                                {% if  Orden == '1' %}
-                                    <a href="http://127.0.0.1:8000/resumen/Volume/-1">Volumen negociado ▲</a>
-                                {% else %}
-                                    <a href="http://127.0.0.1:8000/resumen/Volume/1">Volumen negociado ▼</a>
-                                {% endif %}
-                              {% else %}
-                                  <a href="http://127.0.0.1:8000/resumen/Volume/1">Volumen negociado</a>
-                              {% endif %}
-                          </th>
-					      <th scope="col">
-                              {% if  Campo == "Change" %}
-                                {% if  Orden == '1' %}
-                                    <a href="http://127.0.0.1:8000/resumen/Change/-1">Variacion 24H ▲</a>
-                                {% else %}
-                                    <a href="http://127.0.0.1:8000/resumen/Change/1">Variacion 24H ▼</a>
-                                {% endif %}
-                              {% else %}
-                                  <a href="http://127.0.0.1:8000/resumen/Change/1">Variacion 24H</a>
-                              {% endif %}
-                          </th>
+					      <th scope="col">Capitalización de mercado($)</th>
+                          <th scope="col">Precio($)</th>
+                          <th scope="col">Volumen negociado($)</th>
+					      <th scope="col">Variación 24H(%)</th>
 					    </tr>
 					  </thead>
 					  <tbody>
                       {%  for key,coin in Data %}
                         {% if key != "TotalMC" %}
                             <tr>
-                              <th>{{ forloop.counter }}</th>
-                              <td class="text-left pl-2 font-weight-bold"><img width="80" src="{% static coin.img %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin"> <a href="index.html">{{ key }}</a></td>
-                              <td>{{coin.MarketCap}}$</td>
-                              <td>{{coin.Price}}$</td>
-                              <td>{{coin.Volume}}$</td>
-                              <td class="crypt-up"> {{coin.Change}}%</td>
+                              <td><img width="80" src="{% static coin.img %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin"></td>
+                              <td class="text-left pl-2 font-weight-bold">{{ key }}</td>
+                              <td>{{coin.MarketCap}}</td>
+                              <td>{{coin.Price}}</td>
+                              <td>{{coin.Volume}}</td>
+                              <td class="crypt-up"> {{coin.Change}}</td>
                             </tr>
                         {% endif %}
                       {% endfor %}
@@ -120,7 +120,7 @@
 			<div class="col-md-12">
 				<div class="text-center">
 					<h1 class="mt-5 mb-3"><b>Capitalización de mercado total:<span class="crypt-up">{{TotalMC}}$</span></b></h1>
-					<p class="mb-5">Última actualización de TradingView: {{Data.BTC.Datetime}}</p>
+					<p class="mb-5">Última actualización de TradingView: {{Datetime}}</p>
 				</div>
 			</div>
 		</div>
@@ -130,7 +130,7 @@
 	<footer>
 		
 	</footer>
-		<script src="{% static 'amc/core.js'%}"></script>
+    <script src="{% static 'amc/core.js'%}"></script>
 	<script src="{% static 'amc/charts.js'%}"></script>
 	<script src="{% static 'amc/dark.js'%}"></script>
 	<script src="{% static 'amc/animated.js'%}"></script>
@@ -142,5 +142,84 @@
 	<script src="{% static 'js/amc.js'%}"></script>
 	<script src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <script>
+        /* Custom filtering function which will search data in column four between two values */
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var min_price = parseInt($('#min_price').val(), 10);
+            var max_price = parseInt($('#max_price').val(), 10);
+            var price = parseFloat(data[3]) || 0; // use data for the age column
+
+            if (
+                (isNaN(min_price) && isNaN(max_price)) ||
+                (isNaN(min_price) && price <= max_price) ||
+                (min_price <= price && isNaN(max_price)) ||
+                (min_price <= price && price <= max_price)
+            ) {
+                return true;
+            }
+            return false;
+        });
+
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var min_volume = parseInt($('#min_volume').val(), 10);
+            var max_volume = parseInt($('#max').val(), 10);
+            var volume = parseFloat(data[4]) || 0; // use data for the age column
+
+            if (
+                (isNaN(min_volume) && isNaN(max_volume)) ||
+                (isNaN(min_volume) && volume <= max_volume) ||
+                (min_volume <= volume && isNaN(max_volume)) ||
+                (min_volume <= volume && volume <= max_volume)
+            ) {
+                return true;
+            }
+            return false;
+            });
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var min_change = parseInt($('#min_change').val(), 10);
+            var max_change = parseInt($('#max_change').val(), 10);
+            var change = parseFloat(data[5]) || 0; // use data for the age column
+
+            if (
+                (isNaN(min_change) && isNaN(max_change)) ||
+                (isNaN(min_change) && change <= max_change) ||
+                (min_change <= change && isNaN(max_change)) ||
+                (min_change <= change && change <= max_change)
+            ) {
+                return true;
+            }
+            return false;
+            });
+
+        $(document).ready(function () {
+            var table = $('#table_id').DataTable({
+                paging: false,
+                info: false,
+            });
+            $('#filter-data').hide();
+
+            // Añadimos la funcionalidad a los botones de los filtros
+            $('#mostrar-filtrado').click(function(){
+                $('#filter-data').show();
+            });
+            $('#cerrar-filtrado').click(function(){
+                $('#filter-data').hide();
+            });
+
+            // Event listener to the two range filtering inputs to redraw on input
+            $('#min_price, #max_price').keyup(function () {
+                table.draw();
+            });
+
+            $('#min_volume, #max_volume').keyup(function () {
+                table.draw();
+            });
+
+            $('#min_change, #max_change').keyup(function () {
+                table.draw();
+            });
+        });
+    </script>
+{% endwith %}
 </body>
 </html>

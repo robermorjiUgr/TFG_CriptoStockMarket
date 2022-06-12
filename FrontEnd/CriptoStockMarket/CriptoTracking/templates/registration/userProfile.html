@@ -56,15 +56,10 @@
                     <h3 class="p"><div class="welcome"><p style="color:white">Regístrate para visualizar los datos de tus criptomonedas favoritas, predecir sus movimientos a medio plazo, y ... ¡simular inversiones!</p></div></h3>
                     <h3 class="p-2"></h3><div class="text-left">
                         <form method="post" class="cryptorio-main-form">
-                            {% csrf_token %}
-	                        {{ form.as_p }}
-                            {% if messages %}
-                                <ul class="messages">
-                                    {% for message in messages %}
-                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
+                           {{ request.user.username }}
+                           {{ request.user.email }}
+                           {{ request.user.first_name }}
+                            {{ request.user.last_name }}
                             <button type="submit" class="crypt-button-blue-full" style ="margin-left: 11%">Registrar</button>
                                 <h3 class = "p-2"><div class = "welcome text-center">Si ya tienes cuenta, inicia sesión <a href = "http://127.0.0.1:8000/accounts/login">aquí</a>.</div></h3>
                         </form>

@@ -10,25 +10,35 @@
     <link rel="stylesheet" href="{% static 'css/ui.css' %}">
 </head>
 <body class="crypt-dark">
-    <header>
+    {% with url="http://127.0.0.1:8000" %}
+	<header>
         <div class="container-full-width">
             <div class="crypt-header">
                 <div class="row">
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-5">
                         <div class="row">
                             <div class="col-xs-2">
-                                <a href="http://127.0.0.1:8000/"><div class="crypt-logo"><img src="{% static 'images/ownlogoB.png' %}" alt=""></div></a>
+                                <a href={{url}}><div class="crypt-logo"><img src="{% static 'images/ownlogoB.png' %}" alt=""></div></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block d-lg-block">
                         <ul class="crypt-heading-menu fright">
-                            <li><a href="http://127.0.0.1:8000/">Criptomonedas</a></li>
-                            <li><a href="http://127.0.0.1:8000/resumen/MarketCap/1">Resumen</a></li>
+                            <li><a href={{url}}>Criptomonedas</a></li>
+                            <li><a href="{{url}}/resumen">Resumen</a></li>
                             <li><a href="marketcap.html">Predictor</a></li>
                             <li><a href="trading.html">Simulador</a></li>
-                            <li class="crypt-box-menu menu-blue"><a href="http://127.0.0.1:8000/register">Registrar</a></li>
-                            <li class="crypt-box-menu menu-green"><a href="http://127.0.0.1:8000/accounts/login">Iniciar Sesión</a></li>
+                            {% if request.user.is_authenticated %}
+                                <li>
+                                    <em>
+                                       <a href="">Mi cuenta: {{ request.user.username }}</a>
+                                       <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
+                                    </em>
+                                </li>
+                            {% else %}
+                                <li class="crypt-box-menu menu-blue"><a href="{{url}}/register">Registrar</a></li>
+                                <li class="crypt-box-menu menu-green"><a href="{{url}}/accounts/login">Iniciar Sesión</a></li>
+                            {% endif %}
                         </ul>
                     </div><i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i></div>
             </div>
@@ -78,5 +88,6 @@
 	<script src="{% static 'js/main.js'%}"></script>
 	<script src="{% static 'js/amc.js'%}"></script>
 	<script src="https://s3.tradingview.com/tv.js"></script>
+{% endwith %}
 </body>
 </html>

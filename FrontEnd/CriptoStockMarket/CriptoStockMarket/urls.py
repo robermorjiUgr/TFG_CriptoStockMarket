@@ -23,5 +23,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', v.home, name="home"),
     path('visualizar/<criptomoneda>', v.visualizar_criptomoneda, name="visualizar_criptomoneda"),
-    path('resumen/<campo>/<orden>', v.resumen_criptomonedas, name="resumen_criptomonedas"),
+    path('resumen/', v.resumen_criptomonedas, name="resumen_criptomonedas"),
+    path('userProfile/', v.userProfile, name="userProfile"),
 ]

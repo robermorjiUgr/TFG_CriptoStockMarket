@@ -148,7 +148,10 @@ def ordenarCripto(datos, field, orden):
 
     return lista_monedas
 
-def resumen_criptomonedas(request, campo, orden):
+def resumen_criptomonedas(request):
     datos = get_datos()
-    datos_ordenados = ordenarCripto(datos,campo, orden)
-    return render(request, "cripto-overview.html", {"Data": datos_ordenados, "TotalMC" : datos["TotalMC"], "Campo" : campo, "Orden" : orden})
+    datos_ordenados = ordenarCripto(datos,"MarketCap", "-1")
+    return render(request, "cripto-overview.html", {"Data": datos_ordenados, "TotalMC" : datos["TotalMC"], "Datetime": datos['BTC']['Datetime']})
+
+def userProfile(request):
+    return render(request, "registration/userProfile.html")
