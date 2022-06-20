@@ -36,3 +36,32 @@ class RegisterForm(UserCreationForm):
         help_texts = {
             "username": "",
         }
+
+class UpdateUserForm(forms.ModelForm):
+    username = forms.CharField(max_length=100,
+                               required=True,
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(required=True,
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(required=True,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if username != "":
+            if User.objects.filter(username=username).exists():
+                raise ValidationError("Ya hay un usuario en el sistema con ese nombre de usuario")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if email != "":
+            if User.objects.filter(email=email).exists():
+                raise ValidationError("Ya hay un usuario en el sistema con ese email")
+        return email
+
+    class Meta:
+        model = User
+        fields = ('username', 'email','first_name','last_name')

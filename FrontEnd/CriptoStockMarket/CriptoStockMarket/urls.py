@@ -24,5 +24,7 @@ urlpatterns = [
     path('', v.home, name="home"),
     path('visualizar/<criptomoneda>', v.visualizar_criptomoneda, name="visualizar_criptomoneda"),
     path('resumen/', v.resumen_criptomonedas, name="resumen_criptomonedas"),
+    path('comparar/<criptomoneda1>/<criptomoneda2>', v.comparar_criptomonedas, name="comparar_criptomonedas"),
+    path('ranking/', v.ranking_criptomonedas, name="ranking"),
     path('userProfile/', v.userProfile, name="userProfile"),
 ]

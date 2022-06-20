@@ -32,9 +32,11 @@
                             {% if request.user.is_authenticated %}
                                 <li>
                                     <em>
-                                       <a href="">Mi cuenta: {{ request.user.username }}</a>
-                                       <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
+                                       <a href="{{url}}/userProfile">Mi cuenta</a>
                                     </em>
+                                </li>
+                                <li>
+                                <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
                                 </li>
                             {% else %}
                                 <li class="crypt-box-menu menu-blue"><a href="{{url}}/register">Registrar</a></li>
@@ -50,18 +52,45 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3"></div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="cryptorio-forms text-center pt-5 pb-5">
-                    <h3 class="p-4"><b><p style="color:white">Crear una cuenta</p></b></h3>
-                    <h3 class="p"><div class="welcome"><p style="color:white">Regístrate para visualizar los datos de tus criptomonedas favoritas, predecir sus movimientos a medio plazo, y ... ¡simular inversiones!</p></div></h3>
                     <h3 class="p-2"></h3><div class="text-left">
                         <form method="post" class="cryptorio-main-form">
-                           {{ request.user.username }}
-                           {{ request.user.email }}
-                           {{ request.user.first_name }}
-                            {{ request.user.last_name }}
-                            <button type="submit" class="crypt-button-blue-full" style ="margin-left: 11%">Registrar</button>
-                                <h3 class = "p-2"><div class = "welcome text-center">Si ya tienes cuenta, inicia sesión <a href = "http://127.0.0.1:8000/accounts/login">aquí</a>.</div></h3>
+                            <h1><b>Datos de usuario</b></h1>
+                            <hr>
+                            {% if user_form.errors %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div id="form_errors">
+                                        {% for key, value in user_form.errors.items %}
+                                            <strong>{{ value }}</strong>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                            {% csrf_token %}
+                            <div class="contenedor-datos">
+                                <h5><b>Username</b></h5>
+                                {{ user_form.username }}
+                            </div>
+                            <div class="contenedor-datos">
+                                <h5><b>Correo electrónico</b></h5>
+                                <label for="email" class = "label_signup"></label>
+                                {{ user_form.email }}
+                            </div>
+                            <div class="contenedor-datos">
+                                <h5><b>Nombre</b></h5>
+                                <label for="name" class = "label_signup"></label>
+                                {{ user_form.first_name }}
+                            </div>
+                            <div class="contenedor-datos">
+                                <h5><b>Apellidos</b></h5>
+                                <label for="lastname" class = "label_signup"></label>
+                                {{ user_form.last_name }}
+                            </div>
+                            <button type="submit" class="crypt-button-blue-full" style ="margin-left: 11%">Modificar datos</button>
                         </form>
                     </div>
                 </div>

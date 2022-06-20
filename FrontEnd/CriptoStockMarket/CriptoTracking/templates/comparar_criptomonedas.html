@@ -54,92 +54,85 @@
 	<div class="container">
 		<div class="row">
 			<div class="col md-12 text-center">
-                <h1 class="mt-5 mb-5"><b>Información general</b></h1>
+                <h1 class="mt-5 mb-5"><b>Comparación de criptomonedas</b></h1>
 			</div>
 		</div>
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12" style="align-items: center">
 				<div class="table-responsive">
-                <button id="mostrar-filtrado" class="boton-filtrado">Filtrar criptomonedas</button>
-
-                <div id="filter-data">
-                    <button class="boton-cerrar" type="button" id="cerrar-filtrado">
-                        <img class = "imagen-cerrar" src = "{% static 'images/close.png' %}"/>
-                    </button>
-                    <p>
-                        Precio mínimo:
-                        <input type="text" id="min_price" name="min">
-                        Precio máximo:
-                        <input type="text" id="max_price" name="max">
-                    </p>
-                    <p>
-                        Volumen mínimo:
-                        <input type="text" id="min_volume" name="min">
-                        Volumen máximo:
-                        <input type="text" id="max_volume" name="max">
-                    </p>
-                    <p>
-                        Variacion mínima:
-                        <input type="text" id="min_change" name="min">
-                        Variacion máxima:
-                        <input type="text" id="max_change" name="max">
-                    </p>
-                </div>
 					<table class="table table-striped crypt-table-market-cap" id="table_id">
-					  <thead>
 					    <tr>
-                          <th scope="col" width="10px"></th>
-					      <th scope="col"></th>
-					      <th scope="col" class="text-left pl-2">Nombre</th>
-					      <th scope="col">Capitalización de mercado($)</th>
-                          <th scope="col">Precio($)</th>
-                          <th scope="col">Volumen negociado($)</th>
-					      <th scope="col">Variación 24H(%)</th>
+                          <td></td>
+					      <th scope="col" style="background-color: cornflowerblue; border: 2px solid; width: 15%"><img width="100" src="{% static resumen_cripto1.img %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin">{{ Cripto1 }}</th>
+					      <th scope="col" style="background-color: cornflowerblue; border: 2px solid; width: 15%"><img width="80" src="{% static resumen_cripto2.img %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin">{{ Cripto2 }}</th>
 					    </tr>
-					  </thead>
-					  <tbody>
-                      <form id="myform" action="{{ url }}/comparar" method="POST">
-                          {%  for key,coin in Data %}
-                            {% if key != "TotalMC" %}
-                                <tr>
-                                  <td><input type="checkbox" name="criptos" value={{ key }}></td>
-                                  <label for="criptos"><span></span></label>
-                                  <td><img width="80" src="{% static coin.img %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin"></td>
-                                  <td class="text-left pl-2 font-weight-bold">{{ key }}</td>
-                                  <td>{{ coin.MarketCap|floatformat:"0"|intcomma }}</td>
-                                  <td>{{ coin.Price|floatformat:"2" }}</td>
-                                  <td>{{ coin.Volume|floatformat:"0"|intcomma }}</td>
-                                    {% if coin.Change >= 0 %}
-                                        <td class="crypt-up">
-                                            <b>{{coin.Change}}</b>
-                                        </td>
-                                    {% else %}
-                                        <td class="crypt-down">
-                                            <b>{{coin.Change}}</b>
-                                        </td>
-                                    {% endif %}
-                                </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">Capitalización</th>
+                            {% if  resumen_cripto1.MarketCap > resumen_cripto2.MarketCap %}
+                                <td class="crypt-up">{{ resumen_cripto1.MarketCap|floatformat:"0"|intcomma }}$</td>
+                                <td class="crypt-down">{{ resumen_cripto2.MarketCap|floatformat:"0"|intcomma }}$</td>
+                            {% else %}
+                                <td class="crypt-down">{{ resumen_cripto1.MarketCap|floatformat:"0"|intcomma }}$</td>
+                                <td class="crypt-up">{{ resumen_cripto2.MarketCap|floatformat:"0"|intcomma }}$</td>
                             {% endif %}
-                          {% endfor %}
-                      <!--<a href="{{url}}/comparar"></a>-->
-                        <button type="submit" class="boton-comparar">Comparar</button>
-                      </form>
-					  </tbody>
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">Precio</th>
+                            {% if  resumen_cripto1.Price > resumen_cripto2.Price %}
+                                <td class="crypt-up">{{ resumen_cripto1.Price|floatformat:"2" }}$</td>
+                                <td class="crypt-down">{{ resumen_cripto2.Price|floatformat:"2" }}$</td>
+                            {% else %}
+                                <td class="crypt-down">{{ resumen_cripto1.Price|floatformat:"2" }}$</td>
+                                <td class="crypt-up">{{ resumen_cripto2.Price|floatformat:"2" }}$</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">Volumen</th>
+                            {% if  resumen_cripto1.Volume > resumen_cripto2.Volume %}
+                                <td class="crypt-up">{{ resumen_cripto1.Volume|floatformat:"0"|intcomma }}$</td>
+                                <td class="crypt-down">{{ resumen_cripto2.Volume|floatformat:"0"|intcomma }}$</td>
+                            {% else %}
+                                <td class="crypt-down">{{ resumen_cripto1.Volume|floatformat:"0"|intcomma }}$</td>
+                                <td class="crypt-up">{{ resumen_cripto2.Volume|floatformat:"0"|intcomma }}$</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">Variación 24H</th>
+                            {% if  resumen_cripto1.Change > resumen_cripto2.Change %}
+                                <td class="crypt-up">{{ resumen_cripto1.Change|floatformat:"2" }}%</td>
+                                <td class="crypt-down">{{ resumen_cripto2.Change|floatformat:"2" }}%</td>
+                            {% else %}
+                                <td class="crypt-down">{{ resumen_cripto1.Change|floatformat:"2" }}%</td>
+                                <td class="crypt-up">{{ resumen_cripto2.Change|floatformat:"2" }}%</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">Rentabilidad</th>
+                            {% if  indicadores_cripto1.Profitability > indicadores_cripto2.Profitability %}
+                                <td class="crypt-up">{{ indicadores_cripto1.Profitability|floatformat:"3" }}%</td>
+                                <td class="crypt-down">{{ indicadores_cripto2.Profitability|floatformat:"3" }}%</td>
+                            {% else %}
+                                <td class="crypt-down">{{ indicadores_cripto1.Profitability|floatformat:"3" }}%</td>
+                                <td class="crypt-up">{{ indicadores_cripto2.Profitability|floatformat:"3" }}%</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">Riesgo</th>
+                            {% if  indicadores_cripto1.Risk < indicadores_cripto2.Risk %}
+                                <td class="crypt-up">{{ indicadores_cripto1.Risk|floatformat:"3" }}%</td>
+                                <td class="crypt-down">{{ indicadores_cripto2.Risk|floatformat:"3" }}%</td>
+                            {% else %}
+                                <td class="crypt-down">{{ indicadores_cripto1.Risk|floatformat:"3" }}%</td>
+                                <td class="crypt-up">{{ indicadores_cripto2.Risk|floatformat:"3" }}%</td>
+                            {% endif %}
+                        </tr>
 					</table>
 				</div>
 			</div>
 		</div>
 		<hr />
-		<div class="row">
-			<div class="col-md-12">
-				<div class="text-center">
-					<h1 class="mt-5 mb-3"><b>Capitalización de mercado total:<span class="crypt-up">{{TotalMC}}$</span></b></h1>
-					<p class="mb-5">Última actualización de TradingView: {{Datetime}}</p>
-				</div>
-			</div>
-		</div>
 	</div>
 	
 	

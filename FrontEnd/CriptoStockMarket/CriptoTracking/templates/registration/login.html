@@ -31,7 +31,7 @@
                             {% if request.user.is_authenticated %}
                                 <li>
                                     <em>
-                                       <a href="">Mi cuenta: {{ request.user.username }}</a>
+                                       <a href="{{url}}/userProfile">Mi cuenta</a>
                                        <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
                                     </em>
                                 </li>

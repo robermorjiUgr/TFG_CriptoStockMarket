@@ -158,10 +158,18 @@ g[opacity="0.4"]{
 }
 
 .crypt-up{
-    color: #49c279;
+    color: green;
 }
 .crypt-down{
     color: red;
+}
+
+.posicion_inversor {
+    width:30%;
+    height:30%;
+    border: 2px black solid;
+    background-color: lightblue;
+    float: right;
 }
 
 .crypt-up{
@@ -1140,7 +1148,6 @@ body{
     font-weight: bold;
     text-decoration: none;
     font-size: 12px;
-    cursor: pointer;
     height: 10px;
     width: 10px;
 }

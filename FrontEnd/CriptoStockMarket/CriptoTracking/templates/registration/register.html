@@ -32,7 +32,7 @@
                             {% if request.user.is_authenticated %}
                                 <li>
                                     <em>
-                                       <a href="">Mi cuenta: {{ request.user.username }}</a>
+                                       <a href="{{url}}/userProfile">Mi cuenta</a>
                                        <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
                                     </em>
                                 </li>
@@ -66,7 +66,7 @@
                                 </ul>
                             {% endif %}
                             <button type="submit" class="crypt-button-blue-full" style ="margin-left: 11%">Registrar</button>
-                                <h3 class = "p-2"><div class = "welcome text-center">Si ya tienes cuenta, inicia sesión <a href = "http://127.0.0.1:8000/accounts/login">aquí</a>.</div></h3>
+                                <h3 class = "p-2"><div class = "welcome text-center">Si ya tienes cuenta, inicia sesión <a href = "{{ url }}/accounts/login">aquí</a>.</div></h3>
                         </form>
                     </div>
                 </div>

@@ -158,14 +158,21 @@ g[opacity="0.4"]{
 }
 
 .crypt-up{
-    color: #49c279;
+    color: green;
 }
 .crypt-down{
     color: red;
 }
 
-.crypt-up{
-    color: springgreen;
+.posicion_inversor {
+    width:40%;
+    height:70%;
+    border: 2px black solid;
+    border-radius: 10px;
+    background-color: lightblue;
+    float: right;
+    margin: 2%;
+    padding: 1%;
 }
 
 .padding-left{
@@ -1099,10 +1106,25 @@ body{
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 12px;
+    font-size: 16px;
     border-radius: 8px;
     font-weight: bold;
     margin-bottom: 20px;
+}
+
+.boton-comparar {
+    background-color: #008CBA; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    float: right;
 }
 
 #filter-data{

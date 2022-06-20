@@ -15,7 +15,7 @@ dbUSDC = connection["dbUSDCoin"]
 dbXRP = connection["dbXRP"]
 dbUST = connection["dbTerra"]
 
-# Creamos dos colecciones para cada una de las bases de datos:
+# Creamos dos colecciones para registrar la informacion de cada criptomoneda, y en cada una de las bases de datos:
 #   - La primera de ellas sera para llevar un registro historico extenso del precio
 #   - La segunda sera para llevar un registro de datos mas alla del precio
 price_collectionBTC = dbBTC["price_data"]
@@ -45,6 +45,27 @@ extended_collectionXRP = dbXRP["extended_data"]
 price_collectionUST = dbUST["price_data"]
 extended_collectionUST = dbUST["extended_data"]
 
+# Creamos otra coleccion para registrar la informacion sobre los indicadores financieros
+financial_collectionBTC = dbBTC["financial_indicators"]
+
+financial_collectionETH = dbETH["financial_indicators"]
+
+financial_collectionSOL = dbSOL["financial_indicators"]
+
+financial_collectionADA = dbADA["financial_indicators"]
+
+financial_collectionUSDT = dbUSDT["financial_indicators"]
+
+financial_collectionBNC = dbBNC["financial_indicators"]
+
+financial_collectionUSDC = dbUSDC["financial_indicators"]
+
+financial_collectionXRP = dbXRP["financial_indicators"]
+
+financial_collectionUST = dbUST["financial_indicators"]
+
+
+# Devuelve true en el caso en el que la fecha1 sea mas reciente que fecha2
 def masReciente(fecha1, fecha2):
     mas_reciente = False
 
@@ -56,7 +77,8 @@ def masReciente(fecha1, fecha2):
 
     return mas_reciente
 
-# Funcion para la insercion de los precios en cada base de datos
+
+# Insercion de diferentes datos de criptomonedas en cada BD
 def insertarDatosExtendidos(cripto, precio, capital, monedas, volumen, variacion):
     registro_datosextendidos = {
         "Datetime": datetime.now(),
@@ -85,6 +107,8 @@ def insertarDatosExtendidos(cripto, precio, capital, monedas, volumen, variacion
     if cripto == "Terra":
         extended_collectionUST.insert_one(registro_datosextendidos)
 
+
+# Inserta en la coleccion de precios de cada criptomoneda aquellos valores que no haya introducido aun
 def insertarDatosPrecios(cripto, precio):
     # Creamos el registro
     registro_precio = {
@@ -164,6 +188,34 @@ def insertarDatosPrecios(cripto, precio):
             price_collectionUST.insert_one(registro_precio)
 
 
+# Insercion de diferentes datos de criptomonedas en cada BD
+def insertarIndicadoresFinancieros(cripto, rentabilidad, riesgo):
+    registro_indicadores = {
+        "Datetime": datetime.now(),
+        "Profitability": rentabilidad,
+        "Risk": riesgo
+    }
+    if cripto == "Bitcoin":
+        financial_collectionBTC.insert_one(registro_indicadores)
+    if cripto == "Ethereum":
+        financial_collectionETH.insert_one(registro_indicadores)
+    if cripto == "Solana":
+        financial_collectionSOL.insert_one(registro_indicadores)
+    if cripto == "Cardano":
+        financial_collectionADA.insert_one(registro_indicadores)
+    if cripto == "Tether":
+        financial_collectionUSDT.insert_one(registro_indicadores)
+    if cripto == "Binance":
+        financial_collectionBNC.insert_one(registro_indicadores)
+    if cripto == "USDCoin":
+        financial_collectionUSDC.insert_one(registro_indicadores)
+    if cripto == "XRP":
+        financial_collectionXRP.insert_one(registro_indicadores)
+    if cripto == "Terra":
+        financial_collectionUST.insert_one(registro_indicadores)
+
+
+# Devuelve valores actuales de una criptomoneda referidos a precio, capitalizacion, volumen y variacion
 def consultarDatosExtendidos(cripto):
     if cripto == "Bitcoin":
         datos = extended_collectionBTC.find_one(sort=[('_id', -1)])
@@ -186,6 +238,8 @@ def consultarDatosExtendidos(cripto):
 
     return datos
 
+
+# Devuelve un historico de precios de una criptomoneda junto a la fecha en la que tomo ese valor
 def consultarPrecios(cripto):
     if cripto == "Bitcoin":
         datos = price_collectionBTC.find()
@@ -205,6 +259,30 @@ def consultarPrecios(cripto):
         datos = price_collectionXRP.find()
     if cripto == "Terra":
         datos = price_collectionUST.find()
+
+    return datos
+
+
+# Devuelve valores referidos a los indicadores de una determinada criptomoneda
+def consultarIndicadores(cripto):
+    if cripto == "Bitcoin":
+        datos = financial_collectionBTC.find_one(sort=[('_id', -1)])
+    if cripto == "Ethereum":
+        datos = financial_collectionETH.find_one(sort=[('_id', -1)])
+    if cripto == "Solana":
+        datos = financial_collectionSOL.find_one(sort=[('_id', -1)])
+    if cripto == "Cardano":
+        datos = financial_collectionADA.find_one(sort=[('_id', -1)])
+    if cripto == "Tether":
+        datos = financial_collectionUSDT.find_one(sort=[('_id', -1)])
+    if cripto == "Binance":
+        datos = financial_collectionBNC.find_one(sort=[('_id', -1)])
+    if cripto == "USDCoin":
+        datos = financial_collectionUSDC.find_one(sort=[('_id', -1)])
+    if cripto == "XRP":
+        datos = financial_collectionXRP.find_one(sort=[('_id', -1)])
+    if cripto == "Terra":
+        datos = financial_collectionUST.find_one(sort=[('_id', -1)])
 
     return datos
 

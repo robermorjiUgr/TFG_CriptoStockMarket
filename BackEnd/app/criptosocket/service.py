@@ -43,6 +43,14 @@ class BitcoinPrice(Resource):
             precios.append({'Datetime' : i['Datetime'], 'Price':i['Price']})
         return precios
 
+@ns_criptosocket.route('/getIndicatorsBitcoin', endpoint="getIndicatorsBitcoin")
+@ns_criptosocket.doc(description="Get financial indicators about Bitcoin")
+class BitcoinIndicators(Resource):
+    def get(self):
+        datos_btc = admindata.consultarIndicadores("Bitcoin")
+        return jsonify({'Profitability': datos_btc['Profitability'],
+                        'Risk': datos_btc['Risk']})
+
 # ------------------------ MICROSERVICIOS DATOS ETHEREUM-------------------------
 @ns_criptosocket.route('/getExtendedEthereum', endpoint="getExtendedEthereum")
 @ns_criptosocket.doc(description="Get extended data about Ethereum")
@@ -64,6 +72,14 @@ class EthereumPrice(Resource):
         for i in datos_eth:
             precios.append({'Datetime': i['Datetime'], 'Price': i['Price']})
         return precios
+
+@ns_criptosocket.route('/getIndicatorsEthereum', endpoint="getIndicatorsEthereum")
+@ns_criptosocket.doc(description="Get financial indicators about Ethereum")
+class EthereumIndicators(Resource):
+    def get(self):
+        datos_eth = admindata.consultarIndicadores("Ethereum")
+        return jsonify({'Profitability': datos_eth['Profitability'],
+                        'Risk': datos_eth['Risk']})
 
 # ------------------------ MICROSERVICIOS DATOS SOLANA-------------------------
 @ns_criptosocket.route('/getExtendedSolana', endpoint="getExtendedSolana")
@@ -87,6 +103,14 @@ class SolanaPrice(Resource):
             precios.append({'Datetime': i['Datetime'], 'Price': i['Price']})
         return precios
 
+@ns_criptosocket.route('/getIndicatorsSolana', endpoint="getIndicatorsSolana")
+@ns_criptosocket.doc(description="Get financial indicators about Solana")
+class SolanaIndicators(Resource):
+    def get(self):
+        datos_sol = admindata.consultarIndicadores("Solana")
+        return jsonify({'Profitability': datos_sol['Profitability'],
+                        'Risk': datos_sol['Risk']})
+
 # ------------------------ MICROSERVICIOS DATOS CARDANO-------------------------
 @ns_criptosocket.route('/getExtendedCardano', endpoint="getExtendedCardano")
 @ns_criptosocket.doc(description="Get extended data about Cardano")
@@ -108,6 +132,14 @@ class CardanoPrice(Resource):
         for i in datos_ada:
             precios.append({'Datetime': i['Datetime'], 'Price': i['Price']})
         return precios
+
+@ns_criptosocket.route('/getIndicatorsCardano', endpoint="getIndicatorsCardano")
+@ns_criptosocket.doc(description="Get financial indicators about Cardano")
+class CardanoIndicators(Resource):
+    def get(self):
+        datos_ada = admindata.consultarIndicadores("Cardano")
+        return jsonify({'Profitability': datos_ada['Profitability'],
+                        'Risk': datos_ada['Risk']})
 
 # ------------------------ MICROSERVICIOS DATOS Tether-------------------------
 @ns_criptosocket.route('/getExtendedTether', endpoint="getExtendedTether")
@@ -131,6 +163,14 @@ class TetherPrice(Resource):
             precios.append({'Datetime': i['Datetime'], 'Price': i['Price']})
         return precios
 
+@ns_criptosocket.route('/getIndicatorsTether', endpoint="getIndicatorsTether")
+@ns_criptosocket.doc(description="Get financial indicators about Tether")
+class TetherIndicators(Resource):
+    def get(self):
+        datos_usdt = admindata.consultarIndicadores("Tether")
+        return jsonify({'Profitability': datos_usdt['Profitability'],
+                        'Risk': datos_usdt['Risk']})
+
 # ------------------------ MICROSERVICIOS DATOS Binance-------------------------
 @ns_criptosocket.route('/getExtendedBinance', endpoint="getExtendedBinance")
 @ns_criptosocket.doc(description="Get extended data about Binance")
@@ -152,6 +192,14 @@ class BinancePrice(Resource):
         for i in datos_bnc:
             precios.append({'Datetime': i['Datetime'], 'Price': i['Price']})
         return precios
+
+@ns_criptosocket.route('/getIndicatorsBinance', endpoint="getIndicatorsBinance")
+@ns_criptosocket.doc(description="Get financial indicators about Binance")
+class BinanceIndicators(Resource):
+    def get(self):
+        datos_bnc = admindata.consultarIndicadores("Binance")
+        return jsonify({'Profitability': datos_bnc['Profitability'],
+                        'Risk': datos_bnc['Risk']})
 
 # ------------------------ MICROSERVICIOS DATOS USDCoin-------------------------
 @ns_criptosocket.route('/getExtendedUSDCoin', endpoint="getExtendedUSDCoin")
@@ -175,6 +223,14 @@ class USDCoinPrice(Resource):
             precios.append({'Datetime': i['Datetime'], 'Price': i['Price']})
         return precios
 
+@ns_criptosocket.route('/getIndicatorsUSDCoin', endpoint="getIndicatorsUSDCoin")
+@ns_criptosocket.doc(description="Get financial indicators about USDCoin")
+class USDCoinIndicators(Resource):
+    def get(self):
+        datos_usdc = admindata.consultarIndicadores("USDCoin")
+        return jsonify({'Profitability': datos_usdc['Profitability'],
+                        'Risk': datos_usdc['Risk']})
+
 # ------------------------ MICROSERVICIOS DATOS XRP-------------------------
 @ns_criptosocket.route('/getExtendedXRP', endpoint="getExtendedXRP")
 @ns_criptosocket.doc(description="Get extended data about XRP")
@@ -197,6 +253,14 @@ class XRPPrice(Resource):
             precios.append({'Datetime': i['Datetime'], 'Price': i['Price']})
         return precios
 
+@ns_criptosocket.route('/getIndicatorsXRP', endpoint="getIndicatorsXRP")
+@ns_criptosocket.doc(description="Get financial indicators about XRP")
+class XRPIndicators(Resource):
+    def get(self):
+        datos_xrp = admindata.consultarIndicadores("XRP")
+        return jsonify({'Profitability': datos_xrp['Profitability'],
+                        'Risk': datos_xrp['Risk']})
+
 # ------------------------ MICROSERVICIOS DATOS Terra-------------------------
 @ns_criptosocket.route('/getExtendedTerra', endpoint="getExtendedTerra")
 @ns_criptosocket.doc(description="Get extended data about Terra")
@@ -218,4 +282,12 @@ class TerraPrice(Resource):
         for i in datos_Terra:
             precios.append({'Datetime': i['Datetime'], 'Price': i['Price']})
         return precios
+
+@ns_criptosocket.route('/getIndicatorsTerra', endpoint="getIndicatorsTerra")
+@ns_criptosocket.doc(description="Get financial indicators about Terra")
+class TerraIndicators(Resource):
+    def get(self):
+        datos_terra = admindata.consultarIndicadores("Terra")
+        return jsonify({'Profitability': datos_terra['Profitability'],
+                        'Risk': datos_terra['Risk']})
 

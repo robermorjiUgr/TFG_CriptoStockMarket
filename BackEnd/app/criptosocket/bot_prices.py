@@ -159,7 +159,7 @@ for precio in reversed(precios_XRP):
 
 #---------------------------------------------- PRECIOS TERRA ----------------------------------------------------------
 #URL que contiene los datos
-terra_URL = 'https://www.coinbase.com/graphql/query?&operationName=useGetPricesForAssetPageQuery&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%2259282a0565bfbdc0477f69ad3ae4b687c93d75c808445386bfbfa70be7b4a976%22%7D%7D&variables=%7B%22skip%22%3Afalse%2C%22uuid%22%3A%2205120843-11c1-5b66-9df2-395db6d7ed6b%22%2C%22currency%22%3A%22USD%22%7D'
+terra_URL = 'https://www.coinbase.com/graphql/query?&operationName=useGetPricesForAssetPageQuery&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%2259282a0565bfbdc0477f69ad3ae4b687c93d75c808445386bfbfa70be7b4a976%22%7D%7D&variables=%7B%22skip%22%3Afalse%2C%22uuid%22%3A%2222b65a7b-0ed0-5960-a7bf-470cce141baa%22%2C%22currency%22%3A%22USD%22%7D'
 res = r.get(terra_URL)
 
 search_cookies = res.cookies

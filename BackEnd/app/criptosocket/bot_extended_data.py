@@ -20,9 +20,9 @@ def textToNumber(texto):
         contador_decimales = 0
         contar = False
         for caracter in texto:
-                if contar and caracter !='M' and caracter !='B':
+                if contar and caracter !='M' and caracter !='B' and caracter !='T':
                         contador_decimales += 1
-                if caracter != '.' and caracter!= 'M' and caracter !='B':
+                if caracter != '.' and caracter!= 'M' and caracter !='B' and caracter !='T':
                         numero += caracter
                 else:
                         contar = True
@@ -34,6 +34,11 @@ def textToNumber(texto):
                 if caracter == 'B':
                         i = 0
                         while i < (9-contador_decimales):
+                                numero += '0'
+                                i += 1
+                if caracter == 'T':
+                        i = 0
+                        while i < (12-contador_decimales):
                                 numero += '0'
                                 i += 1
 
@@ -76,7 +81,7 @@ def main():
         binance = df.loc[df["NombreNo se encontraron coincidencias"]=='Binance Coin']
         usdc = df.loc[df["NombreNo se encontraron coincidencias"]=='USD Coin']
         xrp = df.loc[df["NombreNo se encontraron coincidencias"]=='XRP']
-        terra = df.loc[df["NombreNo se encontraron coincidencias"]=='TerraUSD']
+        terra = df.loc[df["NombreNo se encontraron coincidencias"]=='Terra Classic']
 
         precio = bitcoin["Última"].values
         cap = textToNumber(bitcoin["Capitalización de mercado"].values[0])
