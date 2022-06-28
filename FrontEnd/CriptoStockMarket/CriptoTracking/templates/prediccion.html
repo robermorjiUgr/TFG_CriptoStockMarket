@@ -1,0 +1,218 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head class="crypt-dark">
+	<meta charset="UTF-8">
+	<title>CriptoTracking</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ui.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+            const labels = [{% for dato in Datos.0 %}"{{dato.Datetime}}",{% endfor %}];
+
+          const data = {
+            labels: labels,
+            datasets: [{
+              label: 'Predicción de la criptomoneda',
+              backgroundColor: 'rgb(85,193,252)',
+              borderColor: 'rgb(85,193,252)',
+              data: [{% for dato in Datos.0 %}{{dato.Prediction}},{% endfor %}],
+            }]
+          };
+
+          const config = {
+            type: 'line',
+            data: data,
+            options: {}
+          };
+    </script>
+</head>
+<body class="crypt-dark">
+{% with url="http://127.0.0.1:8000" %}
+	<header>
+        <div class="container-full-width">
+            <div class="crypt-header">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-5">
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <a href={{url}}><div class="crypt-logo"><img src="{% static 'images/ownlogoB.png' %}" alt=""></div></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block d-lg-block">
+                        <ul class="crypt-heading-menu fright">
+                            <li><a href={{url}}>Criptomonedas</a></li>
+                            <li><a href="{{url}}/resumen">Resumen</a></li>
+                            <li><a href="{{ url }}/ranking">Ranking</a></li>
+                            <li><a href="{{ url }}/prediction">Predictor</a></li>
+                            <li><a href="{{ url }}/simulacion">Simulador</a></li>
+                            {% if request.user.is_authenticated %}
+                                <li>
+                                    <em>
+                                       <a href="{{url}}/userProfile">Mi cuenta</a>
+                                       <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
+                                    </em>
+                                </li>
+                            {% else %}
+                                <li class="crypt-box-menu menu-blue"><a href="{{url}}/register">Registrar</a></li>
+                                <li class="crypt-box-menu menu-green"><a href="{{url}}/accounts/login">Iniciar Sesión</a></li>
+                            {% endif %}
+                        </ul>
+                    </div><i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i></div>
+            </div>
+        </div>
+    </header>
+	<!-- Main Content -->
+    {% if request.user.is_authenticated %}
+        <div class="crypt-gross-market-cap mt-4 mb-3">
+        <button id="mostrar-filtrado" class="boton-comparar" form="">Comparar criptomonedas</button>
+            <form  id="myform" method="post" action={% url 'prediction'  %}>
+              {% csrf_token %}
+              <b style="font-size: large; margin-right: 2%;">Criptomoneda a predecir:</b>
+              <select name="cripto">
+                <option value="Bitcoin">Bitcoin</option>
+                <option value="Ethereum">Ethereum</option>
+                <option value="Solana">Solana</option>
+                <option value="Cardano">Cardano</option>
+                <option value="Binance">Binance</option>
+                <option value="USDCoin">USD Coin</option>
+                <option value="Tether">Tether</option>
+                <option value="XRP">XRP</option>
+                <option value="Terra">Terra</option>
+              </select>
+              <button type="submit" class="boton-filtrado" style="margin-left: 2%;">Predecir</button>
+            </form>
+        </div>
+        <div id="compare-data">
+                    <button class="boton-cerrar" type="button" id="cerrar-filtrado">
+                        <img class = "imagen-cerrar" src = "{% static 'images/close.png' %}"/>
+                    </button>
+                    <form  id="myform" method="post" action={% url 'comparar_prediccion_criptomonedas'  %}>
+                      {% csrf_token %}
+                      <b style="font-size: medium; margin: 2%;">Primera criptomoneda:</b>
+                          <select name="cripto1">
+                            <option value="Bitcoin">Bitcoin</option>
+                            <option value="Ethereum">Ethereum</option>
+                            <option value="Solana">Solana</option>
+                            <option value="Cardano">Cardano</option>
+                            <option value="Binance">Binance</option>
+                            <option value="USDCoin">USD Coin</option>
+                            <option value="Tether">Tether</option>
+                            <option value="XRP">XRP</option>
+                            <option value="Terra">Terra</option>
+                          </select>
+                      <p>
+                          <b style="font-size: medium; margin: 2%;">Segunda criptomoneda:</b>
+                          <select name="cripto2">
+                            <option value="Bitcoin">Bitcoin</option>
+                            <option value="Ethereum">Ethereum</option>
+                            <option value="Solana">Solana</option>
+                            <option value="Cardano">Cardano</option>
+                            <option value="Binance">Binance</option>
+                            <option value="USDCoin">USD Coin</option>
+                            <option value="Tether">Tether</option>
+                            <option value="XRP">XRP</option>
+                            <option value="Terra">Terra</option>
+                          </select>
+                      </p>
+                      <button type="submit" class="boton-compararpred" style="margin-left: 2%;">Comparar</button>
+                    </form>
+                </div>
+        <div class="container-fluid">
+            <div class="row sm-gutters">
+                <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-4">
+                    <div class="crypt-market-status mt-4">
+                        <div>
+                          <!-- Tab panes -->
+                            <div class="tab-content crypt-tab-content">
+                                <div class="table-title">
+                                    Prediccion de <strong>{{ Nombre }}</strong> <img class="crypt-star pr-2" alt="star" src="{% static  Datos.1 %}" width="40">
+                                    <hr/>
+                                </div>
+                                <div role="tabpanel" class="tab-pane active" id="usd">
+                                    <table class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Fecha </th>
+                                          <th scope="col">Precio</th>
+                                          <th scope="col">Variacion</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody class="crypt-table-hover">
+                                          {% for prediccion in Datos.0 %}
+                                              <tr>
+                                                  <th scope="row">{{ prediccion.Datetime }}</th>
+                                                  <td>{{ prediccion.Prediction |floatformat:"3"}}$</td>
+                                                    {% if prediccion.variacion == '-'%}
+                                                        <td> - %</td>
+                                                    {% else %}
+                                                        {% if prediccion.variacion >= 0 %}
+                                                            <td class="crypt-up">{{ prediccion.variacion |floatformat:"3"}}%</td>
+                                                        {% else %}
+                                                            <td class="crypt-down">{{ prediccion.variacion |floatformat:"3"}}%</td>
+                                                        {% endif %}
+                                                    {% endif %}
+                                              </tr>
+                                          {% endfor %}
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-8 col-xxl-4 col-xxl-4">
+                    <h1><b>Gráfica sobre el precio futuro</b></h1>
+                      <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h1>Debe iniciar sesión para acceder a la predicción.</h1>
+    {% endif %}
+    <footer  style="width:100%; margin-left: 0px;"  >
+            <div class="copyright" style="background-color: #fff;">
+                <div class="container-fluid" style="background-color: #fff; color: #000;">
+                        <span style= "float:left;"><b> © 2022 CriptoTracking </b></span> <div class="crypt-in"> <span style= "float:right;"> <a href="https://github.com/robermorjiUgr/TFG_CriptoStockMarket" target="_blank"> <img src="{% static 'images/github.png' %}" alt=""> </a> <a href="https://www.linkedin.com/in/juliocamposr/" target="_blank"> <img src="{% static 'images/linkedin.png' %}" alt=""> </a> Julio Campos - ETSIIT Granada </span></div>
+                </div>
+            </div>
+    </footer>
+	<script src="{% static 'amc/core.js'%}"></script>
+	<script src="{% static 'amc/charts.js'%}"></script>
+	<script src="{% static 'amc/dark.js'%}"></script>
+	<script src="{% static 'amc/animated.js'%}"></script>
+	<script src="{% static 'js/jquery.js'%}"></script>
+	<script src="{% static 'js/popper.min.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.bundle.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+	<script src="{% static 'js/main.js'%}"></script>
+	<script src="{% static 'js/amc.js'%}"></script>
+	<script src="https://s3.tradingview.com/tv.js"></script>
+    <script>
+      const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+      );
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#compare-data').hide();
+
+            // Añadimos la funcionalidad a los botones de los filtros
+            $('#mostrar-filtrado').click(function(){
+                $('#compare-data').show();
+            });
+            $('#cerrar-filtrado').click(function(){
+                $('#compare-data').hide();
+            });
+        });
+    </script>
+
+{% endwith %}
+</body>
+</html>

@@ -64,6 +64,26 @@ financial_collectionXRP = dbXRP["financial_indicators"]
 
 financial_collectionUST = dbUST["financial_indicators"]
 
+# Creamos otra coleccion para registrar los resultados de la prediccion
+prediction_collectionBTC = dbBTC["predictions"]
+
+prediction_collectionETH = dbETH["predictions"]
+
+prediction_collectionSOL = dbSOL["predictions"]
+
+prediction_collectionADA = dbADA["predictions"]
+
+prediction_collectionUSDT = dbUSDT["predictions"]
+
+prediction_collectionBNC = dbBNC["predictions"]
+
+prediction_collectionUSDC = dbUSDC["predictions"]
+
+prediction_collectionXRP = dbXRP["predictions"]
+
+prediction_collectionUST = dbUST["predictions"]
+
+
 
 # Devuelve true en el caso en el que la fecha1 sea mas reciente que fecha2
 def masReciente(fecha1, fecha2):
@@ -214,6 +234,31 @@ def insertarIndicadoresFinancieros(cripto, rentabilidad, riesgo):
     if cripto == "Terra":
         financial_collectionUST.insert_one(registro_indicadores)
 
+# Insercion de diferentes datos de criptomonedas en cada BD
+def insertarPredicciones(cripto, datetime, prediccion):
+    registro_predicciones = {
+        "Datetime": datetime,
+        "Prediction": prediccion,
+    }
+    if cripto == "Bitcoin":
+        prediction_collectionBTC.insert_one(registro_predicciones)
+    if cripto == "Ethereum":
+        prediction_collectionETH.insert_one(registro_predicciones)
+    if cripto == "Solana":
+        prediction_collectionSOL.insert_one(registro_predicciones)
+    if cripto == "Cardano":
+        prediction_collectionADA.insert_one(registro_predicciones)
+    if cripto == "Tether":
+        prediction_collectionUSDT.insert_one(registro_predicciones)
+    if cripto == "Binance":
+        prediction_collectionBNC.insert_one(registro_predicciones)
+    if cripto == "USDCoin":
+        prediction_collectionUSDC.insert_one(registro_predicciones)
+    if cripto == "XRP":
+        prediction_collectionXRP.insert_one(registro_predicciones)
+    if cripto == "Terra":
+        prediction_collectionUST.insert_one(registro_predicciones)
+
 
 # Devuelve valores actuales de una criptomoneda referidos a precio, capitalizacion, volumen y variacion
 def consultarDatosExtendidos(cripto):
@@ -262,7 +307,6 @@ def consultarPrecios(cripto):
 
     return datos
 
-
 # Devuelve valores referidos a los indicadores de una determinada criptomoneda
 def consultarIndicadores(cripto):
     if cripto == "Bitcoin":
@@ -285,4 +329,29 @@ def consultarIndicadores(cripto):
         datos = financial_collectionUST.find_one(sort=[('_id', -1)])
 
     return datos
+
+# Devuelve valores referidos a los resultados de la prediccion
+def consultarPrediction(cripto):
+    if cripto == "Bitcoin":
+        datos = prediction_collectionBTC.find({'Datetime': {"$gte": datetime.now()}})
+    if cripto == "Ethereum":
+        datos = prediction_collectionETH.find({'Datetime': {"$gte": datetime.now()}})
+    if cripto == "Solana":
+        datos = prediction_collectionSOL.find({'Datetime': {"$gte": datetime.now()}})
+    if cripto == "Cardano":
+        datos = prediction_collectionADA.find({'Datetime': {"$gte": datetime.now()}})
+    if cripto == "Tether":
+        datos = prediction_collectionUSDT.find({'Datetime': {"$gte": datetime.now()}})
+    if cripto == "Binance":
+        datos = prediction_collectionBNC.find({'Datetime': {"$gte": datetime.now()}})
+    if cripto == "USDCoin":
+        datos = prediction_collectionUSDC.find({'Datetime': {"$gte": datetime.now()}})
+    if cripto == "XRP":
+        datos = prediction_collectionXRP.find({'Datetime': {"$gte": datetime.now()}})
+    if cripto == "Terra":
+        datos = prediction_collectionUST.find({'Datetime': {"$gte": datetime.now()}})
+
+    return datos
+
+
 

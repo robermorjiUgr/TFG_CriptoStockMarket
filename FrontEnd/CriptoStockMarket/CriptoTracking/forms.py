@@ -50,14 +50,14 @@ class UpdateUserForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data['username']
-        if username != "":
+        if username != "" and username!=self.cleaned_data['username']:
             if User.objects.filter(username=username).exists():
                 raise ValidationError("Ya hay un usuario en el sistema con ese nombre de usuario")
         return username
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if email != "":
+        if email != "" and email!=self.cleaned_data['email']:
             if User.objects.filter(email=email).exists():
                 raise ValidationError("Ya hay un usuario en el sistema con ese email")
         return email

@@ -50,7 +50,7 @@ jQuery(document).ready(function() {
 	 	new TradingView.widget(
 		 	{
 		  		"autosize": true,
-				"symbol": "COINBASE:XRPUSD",
+				"symbol": "BINANCEUS:USDCUSD",
 			  	"interval": "D",
 			  	"timezone": "Etc/UTC",
 			  	"theme": "Light",

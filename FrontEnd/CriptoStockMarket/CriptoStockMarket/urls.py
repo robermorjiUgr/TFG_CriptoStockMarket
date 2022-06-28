@@ -21,10 +21,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', v.register, name="register"),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('userProfile/', v.userProfile, name="userProfile"),
     path('', v.home, name="home"),
     path('visualizar/<criptomoneda>', v.visualizar_criptomoneda, name="visualizar_criptomoneda"),
     path('resumen/', v.resumen_criptomonedas, name="resumen_criptomonedas"),
-    path('comparar/<criptomoneda1>/<criptomoneda2>', v.comparar_criptomonedas, name="comparar_criptomonedas"),
+    path('comparar/', v.comparar_criptomonedas, name="comparar_criptomonedas"),
+    path('comparar_prediccion/', v.comparar_prediccion_criptomonedas, name="comparar_prediccion_criptomonedas"),
+    path('prediction/', v.prediction, name="prediction"),
     path('ranking/', v.ranking_criptomonedas, name="ranking"),
-    path('userProfile/', v.userProfile, name="userProfile"),
+    path('simulacion/', v.simulacion, name="simulacion")
 ]

@@ -51,6 +51,16 @@ class BitcoinIndicators(Resource):
         return jsonify({'Profitability': datos_btc['Profitability'],
                         'Risk': datos_btc['Risk']})
 
+@ns_criptosocket.route('/getPredictionBitcoin', endpoint="getPredictionBitcoin")
+@ns_criptosocket.doc(description="Get Prediction about Bitcoin")
+class BitcoinPrediction(Resource):
+    def get(self):
+        datos_btc = admindata.consultarPrediction("Bitcoin")
+        predicciones = []
+        for i in datos_btc:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones
+
 # ------------------------ MICROSERVICIOS DATOS ETHEREUM-------------------------
 @ns_criptosocket.route('/getExtendedEthereum', endpoint="getExtendedEthereum")
 @ns_criptosocket.doc(description="Get extended data about Ethereum")
@@ -80,6 +90,16 @@ class EthereumIndicators(Resource):
         datos_eth = admindata.consultarIndicadores("Ethereum")
         return jsonify({'Profitability': datos_eth['Profitability'],
                         'Risk': datos_eth['Risk']})
+
+@ns_criptosocket.route('/getPredictionEthereum', endpoint="getPredictionEthereum")
+@ns_criptosocket.doc(description="Get Prediction about Ethereum")
+class EthereumPrediction(Resource):
+    def get(self):
+        datos_eth = admindata.consultarPrediction("Ethereum")
+        predicciones = []
+        for i in datos_eth:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones
 
 # ------------------------ MICROSERVICIOS DATOS SOLANA-------------------------
 @ns_criptosocket.route('/getExtendedSolana', endpoint="getExtendedSolana")
@@ -111,6 +131,16 @@ class SolanaIndicators(Resource):
         return jsonify({'Profitability': datos_sol['Profitability'],
                         'Risk': datos_sol['Risk']})
 
+@ns_criptosocket.route('/getPredictionSolana', endpoint="getPredictionSolana")
+@ns_criptosocket.doc(description="Get Prediction about Solana")
+class SolanaPrediction(Resource):
+    def get(self):
+        datos_sol = admindata.consultarPrediction("Solana")
+        predicciones = []
+        for i in datos_sol:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones
+
 # ------------------------ MICROSERVICIOS DATOS CARDANO-------------------------
 @ns_criptosocket.route('/getExtendedCardano', endpoint="getExtendedCardano")
 @ns_criptosocket.doc(description="Get extended data about Cardano")
@@ -140,6 +170,16 @@ class CardanoIndicators(Resource):
         datos_ada = admindata.consultarIndicadores("Cardano")
         return jsonify({'Profitability': datos_ada['Profitability'],
                         'Risk': datos_ada['Risk']})
+
+@ns_criptosocket.route('/getPredictionCardano', endpoint="getPredictionCardano")
+@ns_criptosocket.doc(description="Get Prediction about Cardano")
+class CardanoPrediction(Resource):
+    def get(self):
+        datos_ada = admindata.consultarPrediction("Cardano")
+        predicciones = []
+        for i in datos_ada:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones
 
 # ------------------------ MICROSERVICIOS DATOS Tether-------------------------
 @ns_criptosocket.route('/getExtendedTether', endpoint="getExtendedTether")
@@ -171,6 +211,15 @@ class TetherIndicators(Resource):
         return jsonify({'Profitability': datos_usdt['Profitability'],
                         'Risk': datos_usdt['Risk']})
 
+@ns_criptosocket.route('/getPredictionTether', endpoint="getPredictionTether")
+@ns_criptosocket.doc(description="Get Prediction about Tether")
+class TetherPrediction(Resource):
+    def get(self):
+        datos_usdt = admindata.consultarPrediction("Tether")
+        predicciones = []
+        for i in datos_usdt:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones
 # ------------------------ MICROSERVICIOS DATOS Binance-------------------------
 @ns_criptosocket.route('/getExtendedBinance', endpoint="getExtendedBinance")
 @ns_criptosocket.doc(description="Get extended data about Binance")
@@ -200,6 +249,16 @@ class BinanceIndicators(Resource):
         datos_bnc = admindata.consultarIndicadores("Binance")
         return jsonify({'Profitability': datos_bnc['Profitability'],
                         'Risk': datos_bnc['Risk']})
+
+@ns_criptosocket.route('/getPredictionBinance', endpoint="getPredictionBinance")
+@ns_criptosocket.doc(description="Get Prediction about Binance")
+class BinancePrediction(Resource):
+    def get(self):
+        datos_bnc = admindata.consultarPrediction("Binance")
+        predicciones = []
+        for i in datos_bnc:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones
 
 # ------------------------ MICROSERVICIOS DATOS USDCoin-------------------------
 @ns_criptosocket.route('/getExtendedUSDCoin', endpoint="getExtendedUSDCoin")
@@ -231,6 +290,16 @@ class USDCoinIndicators(Resource):
         return jsonify({'Profitability': datos_usdc['Profitability'],
                         'Risk': datos_usdc['Risk']})
 
+@ns_criptosocket.route('/getPredictionUSDCoin', endpoint="getPredictionUSDCoin")
+@ns_criptosocket.doc(description="Get Prediction about USDCoin")
+class USDCoinPrediction(Resource):
+    def get(self):
+        datos_USDCoin = admindata.consultarPrediction("USDCoin")
+        predicciones = []
+        for i in datos_USDCoin:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones
+
 # ------------------------ MICROSERVICIOS DATOS XRP-------------------------
 @ns_criptosocket.route('/getExtendedXRP', endpoint="getExtendedXRP")
 @ns_criptosocket.doc(description="Get extended data about XRP")
@@ -260,6 +329,17 @@ class XRPIndicators(Resource):
         datos_xrp = admindata.consultarIndicadores("XRP")
         return jsonify({'Profitability': datos_xrp['Profitability'],
                         'Risk': datos_xrp['Risk']})
+
+@ns_criptosocket.route('/getPredictionXRP', endpoint="getPredictionXRP")
+@ns_criptosocket.doc(description="Get Prediction about XRP")
+class XRPPrediction(Resource):
+    def get(self):
+        datos_XRP = admindata.consultarPrediction("XRP")
+        predicciones = []
+        for i in datos_XRP:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones
+
 
 # ------------------------ MICROSERVICIOS DATOS Terra-------------------------
 @ns_criptosocket.route('/getExtendedTerra', endpoint="getExtendedTerra")
@@ -291,3 +371,12 @@ class TerraIndicators(Resource):
         return jsonify({'Profitability': datos_terra['Profitability'],
                         'Risk': datos_terra['Risk']})
 
+@ns_criptosocket.route('/getPredictionTerra', endpoint="getPredictionTerra")
+@ns_criptosocket.doc(description="Get Prediction about Terra")
+class TerraPrediction(Resource):
+    def get(self):
+        datos_terra = admindata.consultarPrediction("Terra")
+        predicciones = []
+        for i in datos_terra:
+            predicciones.append({'Datetime': i['Datetime'].strftime('%d/%m/%Y'), 'Prediction': i['Prediction']})
+        return predicciones

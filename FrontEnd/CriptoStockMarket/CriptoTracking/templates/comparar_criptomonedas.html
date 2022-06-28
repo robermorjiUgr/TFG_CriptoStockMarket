@@ -30,8 +30,9 @@
                         <ul class="crypt-heading-menu fright">
                             <li><a href={{ url }}>Criptomonedas</a></li>
                             <li><a href="{{ url }}/resumen">Resumen</a></li>
-                            <li><a href="marketcap.html">Predictor</a></li>
-                            <li><a href="trading.html">Simulador</a></li>
+                            <li><a href="{{ url }}/ranking">Ranking</a></li>
+                            <li><a href="{{ url }}/prediction">Predictor</a></li>
+                            <li><a href="{{ url }}/simulacion">Simulador</a></li>
                             {% if request.user.is_authenticated %}
                                 <li>
                                     <em>
@@ -80,7 +81,7 @@
                         </tr>
                         <tr>
                             <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">Precio</th>
-                            {% if  resumen_cripto1.Price > resumen_cripto2.Price %}
+                            {% if  resumen_cripto1.MarketCap > resumen_cripto2.MarketCap %}
                                 <td class="crypt-up">{{ resumen_cripto1.Price|floatformat:"2" }}$</td>
                                 <td class="crypt-down">{{ resumen_cripto2.Price|floatformat:"2" }}$</td>
                             {% else %}
@@ -151,84 +152,6 @@
 	<script src="{% static 'js/amc.js'%}"></script>
 	<script src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
-    <script>
-        /* Custom filtering function which will search data in column four between two values */
-        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-            var min_price = parseInt($('#min_price').val(), 10);
-            var max_price = parseInt($('#max_price').val(), 10);
-            var price = parseFloat(data[3]) || 0; // use data for the age column
-
-            if (
-                (isNaN(min_price) && isNaN(max_price)) ||
-                (isNaN(min_price) && price <= max_price) ||
-                (min_price <= price && isNaN(max_price)) ||
-                (min_price <= price && price <= max_price)
-            ) {
-                return true;
-            }
-            return false;
-        });
-
-        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-            var min_volume = parseInt($('#min_volume').val(), 10);
-            var max_volume = parseInt($('#max').val(), 10);
-            var volume = parseFloat(data[4]) || 0; // use data for the age column
-
-            if (
-                (isNaN(min_volume) && isNaN(max_volume)) ||
-                (isNaN(min_volume) && volume <= max_volume) ||
-                (min_volume <= volume && isNaN(max_volume)) ||
-                (min_volume <= volume && volume <= max_volume)
-            ) {
-                return true;
-            }
-            return false;
-            });
-        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-            var min_change = parseInt($('#min_change').val(), 10);
-            var max_change = parseInt($('#max_change').val(), 10);
-            var change = parseFloat(data[5]) || 0; // use data for the age column
-
-            if (
-                (isNaN(min_change) && isNaN(max_change)) ||
-                (isNaN(min_change) && change <= max_change) ||
-                (min_change <= change && isNaN(max_change)) ||
-                (min_change <= change && change <= max_change)
-            ) {
-                return true;
-            }
-            return false;
-            });
-
-        $(document).ready(function () {
-            var table = $('#table_id').DataTable({
-                paging: false,
-                info: false,
-            });
-            $('#filter-data').hide();
-
-            // Añadimos la funcionalidad a los botones de los filtros
-            $('#mostrar-filtrado').click(function(){
-                $('#filter-data').show();
-            });
-            $('#cerrar-filtrado').click(function(){
-                $('#filter-data').hide();
-            });
-
-            // Event listener to the two range filtering inputs to redraw on input
-            $('#min_price, #max_price').keyup(function () {
-                table.draw();
-            });
-
-            $('#min_volume, #max_volume').keyup(function () {
-                table.draw();
-            });
-
-            $('#min_change, #max_change').keyup(function () {
-                table.draw();
-            });
-        });
-    </script>
 {% endwith %}
 </body>
 </html>

@@ -2,6 +2,7 @@ import sys
 import fileinput
 import requests
 import pandas as pd
+import ipdb
 import json
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -93,6 +94,124 @@ def get_datos_resumen():
     datos['XRP']['img'] = 'images/coins/XRP.png'
     datos['Terra']['img'] = 'images/coins/Terra.png'
 
+    return datos
+
+# Consulta los datos extendidos de cada criptomoneda mediante consultas a los microservicios
+def get_prediccion(criptomoneda):
+    data=""
+    img=""
+    if (criptomoneda=="Bitcoin" or criptomoneda=="BTC"):
+        # GET BITCOIN DATA
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionBitcoin'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/BTC.png'
+    if (criptomoneda == "Ethereum" or criptomoneda=="ETH"):
+        # GET ETHEREUM DATA
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionEthereum'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/ETH.png'
+    if (criptomoneda == "Solana" or criptomoneda=="SOL"):
+        # GET SOLANA DATA
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionSolana'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/SOL.png'
+    if (criptomoneda == "Cardano" or criptomoneda=="ADA"):
+        # GET CARDANO DATA
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionCardano'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/ADA.png'
+    if (criptomoneda == "Tether"  or criptomoneda=="USDT"):
+        # GET TETHER DATA
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionTether'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/USDT.png'
+    if (criptomoneda == "Binance" or criptomoneda=="BNC"):
+        # GET BINANCE DATA
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionBinance'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/BNC.png'
+    # GET USDCoin DATA
+    if (criptomoneda == "USDCoin" or criptomoneda=="USDC"):
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionUSDCoin'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/USDC.png'
+    if (criptomoneda == "XRP"):
+        # GET XRP DATA
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionXRP'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/XRP.png'
+    if (criptomoneda == "Terra"):
+        # GET TERRA DATA
+        headers = {
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+        url_req = 'http://localhost:5000/criptosocket/getPredictionTerra'
+        req = requests.get(url=url_req, headers=headers)
+        data = req.json()
+        data[0]['variacion']='-'
+        for i in range(1, (len(data))):
+            variacion = ((data[i]['Prediction'] - data[i-1]['Prediction'])/data[i-1]['Prediction'])*100
+            data[i]['variacion'] = variacion
+        img = 'images/coins/Terra.png'
+
+    datos=[]
+    datos.append(data)
+    datos.append(img)
     return datos
 
 # Consulta los indicadores de cada criptomoneda mediante consultas a los microservicios
@@ -194,6 +313,29 @@ def getRanking():
 
     return datos_ordenados
 
+def getIDTradingView(criptomoneda):
+    if (criptomoneda == 'Bitcoin' or criptomoneda == 'BTC'):
+        id = '"COINBASE:BTCUSD"'
+    if (criptomoneda == 'Ethereum' or criptomoneda == 'ETH'):
+        id = '"COINBASE:ETHUSD"'
+    if (criptomoneda == 'Solana' or criptomoneda == 'SOL'):
+        id = '"COINBASE:SOLUSD"'
+    if (criptomoneda == 'Cardano' or criptomoneda == 'ADA'):
+        id = '"COINBASE:ADAUSD"'
+    if (criptomoneda == 'Tether' or criptomoneda == 'USDT'):
+        id = '"COINBASE:USDTUSD"'
+    if (criptomoneda == 'Binance' or criptomoneda == 'BNC'):
+        id = '"FTX:BNBUSD"'
+    if (criptomoneda == 'USDCoin' or criptomoneda == 'USDC'):
+        id = '"BINANCEUS:USDCUSD"'
+    if (criptomoneda == 'XRP'):
+        id = '"COINBASE:XRPUSD"'
+    if (criptomoneda == 'Terra'):
+        id = '"COINBASE:USTUSD"'
+
+    return id
+
+
 # ------------------------------------------- VISTAS DE LA APP -----------------------------------------------
 
 def register(request):
@@ -225,46 +367,105 @@ def home(request):
 
 def visualizar_criptomoneda(request, criptomoneda):
     archivo = './CriptoTracking/static/js/main.js'
+    id = getIDTradingView(criptomoneda)
     for line in fileinput.input([archivo], inplace=True):
         if line.strip().startswith('"symbol": '):
-            if (criptomoneda == 'Bitcoin'):
-                line = '\t\t\t\t"symbol": "COINBASE:BTCUSD",\n'
-            if (criptomoneda == 'Ethereum'):
-                line = '\t\t\t\t"symbol": "COINBASE:ETHUSD",\n'
-            if (criptomoneda == 'Solana'):
-                line = '\t\t\t\t"symbol": "COINBASE:SOLUSD",\n'
-            if (criptomoneda == 'Cardano'):
-                line = '\t\t\t\t"symbol": "COINBASE:ADAUSD",\n'
-            if (criptomoneda == 'Tether'):
-                line = '\t\t\t\t"symbol": "COINBASE:USDTUSD",\n'
-            if (criptomoneda == 'Binance'):
-                line = '\t\t\t\t"symbol": "FTX:BNBUSD",\n'
-            if (criptomoneda == 'USDCoin'):
-                line = '\t\t\t\t"symbol": "BINANCEUS:USDCUSD",\n'
-            if (criptomoneda == 'XRP'):
-                line = '\t\t\t\t"symbol": "COINBASE:XRPUSD",\n'
-            if (criptomoneda == 'Terra'):
-                line = '\t\t\t\t"symbol": "COINBASE:USTUSD",\n'
+            line = '\t\t\t\t"symbol": '+ id + ',\n'
         sys.stdout.write(line)
 
     return redirect('/')
 
 def resumen_criptomonedas(request):
-    print(request.POST.getlist('criptos'))
     datos = get_datos_resumen()
     datos_ordenados = ordenarCripto(datos,"MarketCap", "-1")
     return render(request, "cripto-overview.html", {"Data": datos_ordenados, "TotalMC" : datos["TotalMC"], "Datetime": datos['BTC']['Datetime']})
 
-def comparar_criptomonedas(request, criptomoneda1, criptomoneda2):
+def comparar_criptomonedas(request):
+    if request.method == 'POST':
+        criptos = request.POST.getlist('criptos')
+        print(request.POST)
+        criptomoneda1 = criptos[0]
+        criptomoneda2 = criptos[1]
+
     datos_resumen = get_datos_resumen()
     datos_indicadores = get_indicadores()
     resumen_criptomoneda1= datos_resumen[criptomoneda1]
-    indicadores_criptomoneda1 = datos_indicadores[criptomoneda1]
     resumen_criptomoneda2 = datos_resumen[criptomoneda2]
-    indicadores_criptomoneda2 = datos_indicadores[criptomoneda2]
-    return render(request, "comparar_criptomonedas.html", {"resumen_cripto1":resumen_criptomoneda1, "resumen_cripto2":resumen_criptomoneda2, "indicadores_cripto1":indicadores_criptomoneda1, "indicadores_cripto2":indicadores_criptomoneda2, "Cripto1": criptomoneda1, "Cripto2": criptomoneda2})
+    indicadores_criptomoneda1=""
+    indicadores_criptomoneda2=""
+    if (criptomoneda1 != "USDC" and criptomoneda1 !="USDT"):
+        indicadores_criptomoneda1 = datos_indicadores[criptomoneda1]
+    if (criptomoneda2 != "USDC" and criptomoneda2 !="USDT"):
+        indicadores_criptomoneda2 = datos_indicadores[criptomoneda2]
+    return render(request, "comparar_criptomonedas.html", {"resumen_cripto1":resumen_criptomoneda1, "resumen_cripto2":resumen_criptomoneda2,
+                                                           "indicadores_cripto1":indicadores_criptomoneda1, "indicadores_cripto2":indicadores_criptomoneda2,
+                                                           "Cripto1": criptomoneda1, "Cripto2": criptomoneda2})
+
+def comparar_prediccion_criptomonedas(request):
+    criptomoneda1=""
+    criptomoneda2=""
+    if request.method == 'POST':
+        criptomoneda1 = request.POST.get('cripto1')
+        criptomoneda2 = request.POST.get('cripto2')
+
+    datos1= get_prediccion(criptomoneda1)
+    datos2 = get_prediccion(criptomoneda2)
+    if (len(datos1[0]) <=  len(datos2[0])):
+        datos_criptomoneda1 = datos1
+        datos_criptomoneda2 = datos2
+    else:
+        datos_criptomoneda1 = datos2
+        datos_criptomoneda2 = datos1
+
+
+
+    return render(request, "comparar_prediccion_criptomonedas.html", {"datos_cripto1":datos_criptomoneda1, "datos_cripto2":datos_criptomoneda2,
+                                                           "Cripto1": criptomoneda1, "Cripto2": criptomoneda2})
 
 def ranking_criptomonedas(request):
     datos_puntuados = getRanking()
     datos_ordenados = datos_puntuados
     return render(request, "cripto-ranking.html", {"Data": datos_ordenados})
+
+def prediction(request):
+    criptomoneda = "Bitcoin"
+    if request.method=='POST':
+        criptomoneda = request.POST.get("cripto")
+    datos = get_prediccion(criptomoneda)
+
+    return render(request, "prediccion.html", {"Nombre": criptomoneda, "Datos": datos})
+
+def simulacion(request):
+    criptomoneda=""
+    datos_criptomoneda1=""
+    datos_prediccion=""
+    numero_criptos=0
+    inversion=0
+    resultado = 0
+    rentabilidad = 0
+    precio_futuro=0
+    if (request.method=="POST"):
+        if(request.POST.get("cripto") is not None):
+            criptomoneda = request.POST.get("cripto")
+            datos = get_datos_resumen()
+            datos_criptomoneda1=datos[criptomoneda]
+        if (request.POST.get("inversion") is not None):
+            criptomoneda = request.POST.get("criptomoneda")
+            print(criptomoneda)
+            datos = get_datos_resumen()
+            datos_criptomoneda1 = datos[criptomoneda]
+            precio = request.POST.get("precio_compra")
+            inversion = request.POST.get("inversion")
+            numero_criptos = float(inversion)/float(precio)
+            datos_prediccion = get_prediccion(criptomoneda)
+        if (request.POST.get("fecha") is not None):
+            fecha_futura=request.POST.get("fecha")
+            precio_futuro=float(datos_prediccion[0][int(fecha_futura)-1]['Prediction'])
+            p_venta=numero_criptos*precio_futuro
+            p_compra = numero_criptos * float(precio)
+            resultado = p_venta-p_compra
+            rentabilidad = (resultado/p_compra) *100
+
+
+    return render(request, "simulacion.html", {"Cripto": criptomoneda,"Datos_actuales":datos_criptomoneda1, "Numero_criptos": numero_criptos,
+                                               "Inversion": inversion, "Prediccion": datos_prediccion, "Price_futuro":precio_futuro,"Resultado":resultado, "Rentabilidad":rentabilidad})

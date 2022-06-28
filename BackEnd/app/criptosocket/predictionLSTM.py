@@ -2,6 +2,7 @@
 import pandas as pd
 from matplotlib import pyplot
 import admindata as data
+import datetime
 from dateutil.parser import parse
 import math
 from sklearn.metrics import mean_squared_error
@@ -72,67 +73,93 @@ def forecast_lstm(model, batch_size, X):
 	yhat = model.predict(X, batch_size=batch_size)
 	return yhat[0,0]
 
-datos = data.consultarPrecios("Bitcoin")
-datos_bitcoin = pd.DataFrame(datos)
-# Configuramos el index, asi como convertimos los datetime
-for i in datos_bitcoin.index:
-     datos_bitcoin['Datetime'][i] = parse(datos_bitcoin['Datetime'][i])
-datos_bitcoin['Datetime'] =pd.to_numeric(pd.to_datetime(datos_bitcoin['Datetime'], format="yyyy-mm-dd hh:mm:ss"))
-datos_bitcoin.drop('_id', axis=1, inplace = True)
-datos_bitcoin.set_index('Datetime')
-X = datos_bitcoin['Price'].values
-supervised = timeseries_to_supervised(X, 1)
-print(supervised.head())
+def predecir(criptomoneda):
+	datos = data.consultarPrecios(criptomoneda)
+	datos_cripto = pd.DataFrame(datos)
+	# Configuramos el index, asi como convertimos los datetime
+	for i in datos_cripto.index:
+		 datos_cripto['Datetime'][i] = parse(datos_cripto['Datetime'][i])
+	datos_cripto['Datetime'] =pd.to_datetime(datos_cripto['Datetime'], format="yyyy-mm-dd hh:mm:ss")
+	datos_cripto.drop('_id', axis=1, inplace = True)
+	datos_cripto.set_index('Datetime')
+	X = datos_cripto['Price'].values
+	supervised = timeseries_to_supervised(X, 1)
+	print(supervised.head())
 
-# transform data to be stationary
-raw_values = datos_bitcoin['Price'].values
-diff_values = difference(raw_values, 1)
+	# transform data to be stationary
+	raw_values = datos_cripto['Price'].values
+	diff_values = difference(raw_values, 1)
 
-# transform data to be supervised learning
-supervised = timeseries_to_supervised(diff_values, 1)
-supervised_values = supervised.values
+	# transform data to be supervised learning
+	supervised = timeseries_to_supervised(diff_values, 1)
+	supervised_values = supervised.values
 
-# split data into train and test-sets
-train, test = supervised_values[0:-12], supervised_values[-12:]
+	# split data into train and test-sets
+	train, test = supervised_values[0:-12], supervised_values[-12:]
 
-# transform the scale of the data
-scaler, train_scaled, test_scaled = scale(train, test)
+	# transform the scale of the data
+	scaler, train_scaled, test_scaled = scale(train, test)
 
-# fit the model
-lstm_model = fit_lstm(train_scaled, 1, 3000, 4)
-# forecast the entire training dataset to build up state for forecasting
-train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
-lstm_model.predict(train_reshaped, batch_size=1)
+	# fit the model
+	lstm_model = fit_lstm(train_scaled, 1, 3000, 4)
+	# forecast the entire training dataset to build up state for forecasting
+	train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
+	lstm_model.predict(train_reshaped, batch_size=1)
 
-# walk-forward validation on the test data
-predictions = list()
-for i in range(len(test_scaled)):
-    # make one-step forecast
-    X, y = test_scaled[i, 0:-1], test_scaled[i, -1]
-    yhat = forecast_lstm(lstm_model, 1, X)
-    # invert scaling
-    yhat = invert_scale(scaler, X, yhat)
-    # invert differencing
-    yhat = inverse_difference(raw_values, yhat, len(test_scaled) + 1 - i)
-    # store forecast
-    predictions.append(yhat)
-    expected = raw_values[len(train) + i + 1]
-    print('Prediction Nº=%d, Predicted=%f, Expected=%f' % (i + 1, yhat, expected))
+	# walk-forward validation on the test data
+	predictions = list()
+	for i in range(len(test_scaled)):
+		# make one-step forecast
+		X, y = test_scaled[i, 0:-1], test_scaled[i, -1]
+		yhat = forecast_lstm(lstm_model, 1, X)
+		# invert scaling
+		yhat = invert_scale(scaler, X, yhat)
+		# invert differencing
+		yhat = inverse_difference(raw_values, yhat, len(test_scaled) + 1 - i)
+		# store forecast
+		predictions.append(yhat)
+		expected = raw_values[len(train) + i + 1]
+		print('Prediction Nº=%d, Predicted=%f, Expected=%f' % (i + 1, yhat, expected))
 
-# report performance
-rmse = sqrt(mean_squared_error(raw_values[-12:], predictions))
-print('Test RMSE: %.3f' % rmse)
-# line plot of observed vs predicted
-pyplot.plot(raw_values[-12:])
-pyplot.plot(predictions)
-pyplot.show()
-# ------------------ Representacion de los datos-> EJE X: fecha EJE Y: precio ----------------------------------
-'''datos_bitcoin.plot(y='Price', x='Datetime')
-pyplot.show()'''
 
-# Dividir datos en train y test
-# Train: datos para crear nuestro modelo de prediccion
-# Test: datos a partir de los cuales se llevara a cabo la prediccion
+	# Insertamos los resultados de la prediccion en la BD
+	print(predictions)
+	diferencia_dias = (datos_cripto.loc[len(datos_cripto)-1]['Datetime'] - datos_cripto.loc[len(datos_cripto)-2]['Datetime']).days
+	fecha_anterior = datos_cripto.loc[len(datos_cripto)-1]['Datetime']
+	for prediction in predictions:
+		my_date_days = fecha_anterior + datetime.timedelta(days=diferencia_dias)
+		data.insertarPredicciones(criptomoneda, my_date_days, prediction)
+		fecha_anterior = my_date_days
+
+	# report performance
+	rmse = sqrt(mean_squared_error(raw_values[-12:], predictions))
+	print('Test RMSE: %.3f' % rmse)
+	# line plot of observed vs predicted
+	#pyplot.plot(raw_values[-12:])
+	#pyplot.plot(predictions)
+	#pyplot.show()
+	# ------------------ Representacion de los datos-> EJE X: fecha EJE Y: precio ----------------------------------
+	'''datos_cripto.plot(y='Price', x='Datetime')
+	pyplot.show()'''
+
+	# Dividir datos en train y test
+	# Train: datos para crear nuestro modelo de prediccion
+	# Test: datos a partir de los cuales se llevara a cabo la prediccion
+
+def predecirCriptomonedas():
+	predecir("Bitcoin")
+	predecir("Ethereum")
+	predecir("Solana")
+	predecir("Cardano")
+	predecir("Tether")
+	predecir("Binance")
+	predecir("USDCoin")
+	predecir("XRP")
+	predecir("Terra")
+
+if __name__ == '__main__':
+	predecirCriptomonedas()
+
 
 
 

@@ -30,8 +30,9 @@
                         <ul class="crypt-heading-menu fright">
                             <li><a href={{ url }}>Criptomonedas</a></li>
                             <li><a href="{{ url }}/resumen">Resumen</a></li>
-                            <li><a href="marketcap.html">Predictor</a></li>
-                            <li><a href="trading.html">Simulador</a></li>
+                            <li><a href="{{ url }}/ranking">Ranking</a></li>
+                            <li><a href="{{ url }}/prediction">Predictor</a></li>
+                            <li><a href="{{ url }}/simulacion">Simulador</a></li>
                             {% if request.user.is_authenticated %}
                                 <li>
                                     <em>
@@ -62,8 +63,6 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
-                <button id="mostrar-filtrado" class="boton-filtrado">Filtrar criptomonedas</button>
-
                 <div id="filter-data">
                     <button class="boton-cerrar" type="button" id="cerrar-filtrado">
                         <img class = "imagen-cerrar" src = "{% static 'images/close.png' %}"/>
@@ -87,7 +86,10 @@
                         <input type="text" id="max_change" name="max">
                     </p>
                 </div>
+                <form id="myform" method="post" action={% url 'comparar_criptomonedas'  %}>
+                    {% csrf_token %}
 					<table class="table table-striped crypt-table-market-cap" id="table_id">
+                    <button id="mostrar-filtrado" class="boton-filtrado" form="">Filtrar criptomonedas</button>
 					  <thead>
 					    <tr>
                           <th scope="col" width="10px"></th>
@@ -100,16 +102,14 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-                      <form id="myform" action="{{ url }}/comparar" method="POST">
                           {%  for key,coin in Data %}
                             {% if key != "TotalMC" %}
                                 <tr>
                                   <td><input type="checkbox" name="criptos" value={{ key }}></td>
-                                  <label for="criptos"><span></span></label>
                                   <td><img width="80" src="{% static coin.img %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin"></td>
                                   <td class="text-left pl-2 font-weight-bold">{{ key }}</td>
                                   <td>{{ coin.MarketCap|floatformat:"0"|intcomma }}</td>
-                                  <td>{{ coin.Price|floatformat:"2" }}</td>
+                                  <td>{{ coin.Price|floatformat:"4" }}</td>
                                   <td>{{ coin.Volume|floatformat:"0"|intcomma }}</td>
                                     {% if coin.Change >= 0 %}
                                         <td class="crypt-up">
@@ -123,11 +123,10 @@
                                 </tr>
                             {% endif %}
                           {% endfor %}
-                      <!--<a href="{{url}}/comparar"></a>-->
-                        <button type="submit" class="boton-comparar">Comparar</button>
-                      </form>
+                        <button type="submit" class="boton-comparar" form="myform" id="boton-comparar">Comparar</button>
 					  </tbody>
 					</table>
+                </form>
 				</div>
 			</div>
 		</div>
@@ -163,7 +162,7 @@
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
             var min_price = parseInt($('#min_price').val(), 10);
             var max_price = parseInt($('#max_price').val(), 10);
-            var price = parseFloat(data[3]) || 0; // use data for the age column
+            var price = parseFloat(data[4]) || 0; // use data for the age column
 
             if (
                 (isNaN(min_price) && isNaN(max_price)) ||
@@ -179,7 +178,7 @@
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
             var min_volume = parseInt($('#min_volume').val(), 10);
             var max_volume = parseInt($('#max').val(), 10);
-            var volume = parseFloat(data[4]) || 0; // use data for the age column
+            var volume = parseFloat(data[5]) || 0; // use data for the age column
 
             if (
                 (isNaN(min_volume) && isNaN(max_volume)) ||
@@ -194,7 +193,7 @@
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
             var min_change = parseInt($('#min_change').val(), 10);
             var max_change = parseInt($('#max_change').val(), 10);
-            var change = parseFloat(data[5]) || 0; // use data for the age column
+            var change = parseFloat(data[6]) || 0; // use data for the age column
 
             if (
                 (isNaN(min_change) && isNaN(max_change)) ||
@@ -235,6 +234,33 @@
                 table.draw();
             });
         });
+    </script>
+    <script>
+        function checkboxlimit(checkgroup, limit){
+          button = document.getElementById("boton-comparar");
+          button.addEventListener('click',function(){
+              for (var i=0; i<checkgroup.length; i++){
+                  var checkedcount=0;
+                  for (var i=0; i<checkgroup.length; i++)
+                  {
+                    checkedcount+=(checkgroup[i].checked)? 1 : 0;
+                  }
+              }
+              if (checkedcount>limit) {
+                      alert("Solo puedes seleccionar un máximo de "+limit+" criptomonedas");
+                      document.forms.myform.action="javascript:void(0);";
+              }
+              if (checkedcount<=1)
+              {
+                  alert("Debes seleccionar al menos "+limit+" criptomonedas");
+                  document.forms.myform.action="javascript:void(0);";
+              }
+              if (checkedcount==2){
+                  document.forms.myform.action="{% url 'comparar_criptomonedas'  %}";
+              }
+          });
+        }
+        checkboxlimit(document.forms.myform.criptos, 2);
     </script>
 {% endwith %}
 </body>
