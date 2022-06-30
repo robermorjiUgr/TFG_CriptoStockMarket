@@ -1,0 +1,199 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CriptoTracking</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ui.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+{% with url="http://127.0.0.1:8000" %}
+	<header>
+		<div class="container-full-width">
+			<div class="crypt-header">
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-5">
+						<div class="row">
+							<div class="col-xs-2">
+								<div class="crypt-logo">
+                                    <a href={{ url }}><img src="{% static 'images/ownlogoB.png' %}" alt=""></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block d-lg-block">
+                        <ul class="crypt-heading-menu fright">
+                            <li><a href={{ url }}>Criptomonedas</a></li>
+                            <li><a href="{{ url }}/resumen">Resumen</a></li>
+                            <li><a href="{{ url }}/ranking">Ranking</a></li>
+                            <li><a href="{{ url }}/prediction">Predictor</a></li>
+                            <li><a href="{{ url }}/simulacion">Simulador</a></li>
+                            {% if request.user.is_authenticated %}
+                                <li>
+                                    <em>
+                                       <a href="{{url}}/userProfile">Mi cuenta</a>
+                                       <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
+                                    </em>
+                                </li>
+                            {% else %}
+                                <li class="crypt-box-menu menu-blue"><a href="{{url}}/register">Registrar</a></li>
+                                <li class="crypt-box-menu menu-green"><a href="{{url}}/accounts/login">Iniciar Sesión</a></li>
+                            {% endif %}
+                        </ul>
+                    </div><i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i>
+					<i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- Main Content -->
+	<div class="container">
+		<div class="row">
+			<div class="col md-12 text-center">
+                <h1 class="mt-5 mb-5"><b>Simulador de inversión</b></h1>
+			</div>
+		</div>
+	</div>
+    <div class="container-buysell">
+		<div class="row sm-gutters">
+			<div class="col-lg-8">
+				<div class="crypt-boxed-area">
+                    <form id="myform" method="post" action={% url 'simulacion'  %}>
+                        {% csrf_token %}
+                        <h6 class="crypt-bg-head">
+                            <b class="crypt-up">Compra</b> / <b class="crypt-down">Venta</b>
+                                <select name="cripto">
+                                    <option value="BTC">Bitcoin</option>
+                                    <option value="ETH">Ethereum</option>
+                                    <option value="SOL">Solana</option>
+                                    <option value="ADA">Cardano</option>
+                                    <option value="BNC">Binance</option>
+                                    <option value="USDC">USD Coin</option>
+                                    <option value="USDT">Tether</option>
+                                    <option value="XRP">XRP</option>
+                                    <option value="Terra">Terra</option>
+                                </select>
+                            <button class="boton-simulacion" type="submit" style="float: right">Elegir criptomoneda</button>
+                        </h6>
+                    </form>
+					<div class="row no-gutters">
+						<div class="col-md-6">
+							<div class="crypt-buy-sell-form">
+                                <p> Compra <b class="crypt-up">{{ Cripto }}</b></p>
+								<div class="crypt-buy">
+                                    <form id="myform2" method="post" action={% url 'simulacion'  %}>
+                                        {% csrf_token %}
+                                        <input type="text" style="display:none" name="criptomoneda" value={{ Cripto }}>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Precio</span>
+                                            </div>
+                                            <input type="number" class="form-control" name="precio_compra" readonly value={{ Datos_actuales.Price | floatformat:"2"}}>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Inversión</span>
+                                            </div>
+                                            <input type="number" class="form-control" name="inversion" step="any" value={{ Inversion }}>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Total</span>
+                                            </div>
+                                            <input type="text" class="form-control" readonly value={{ Numero_criptos | floatformat:"2"}}>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">{{ Cripto }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-5 mb-5 crypt-up">
+                                            <p>Comprará aproximadamente:</p>
+                                            <h4>{{ Numero_criptos |floatformat:"2"}} {{ Cripto }}</h4>
+                                        </div>
+                                        <div class="menu-green">
+                                            <button class="crypt-button-green-full" type="submit" >Comprar</button>
+                                        </div>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="crypt-buy-sell-form">
+								<p>Venta <b class="crypt-down">{{ Cripto }}</b></p>
+								<div class="crypt-sell">
+                                    <form id="myform2" method="post" action={% url 'simulacion'  %}>
+                                        {% csrf_token %}
+                                        <input type="number" name="precio_compra" style="display:none" value={{ Datos_actuales.Price }}>
+                                        <input type="text" style="display:none" name="criptomoneda" value={{ Cripto }}>
+                                        <input type="number" name="inversion" step="any" style="display:none" value={{ Inversion }}>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Fecha</span>
+                                            </div>
+                                            <select class="form-control" name="fecha">
+                                                {% for pred in Prediccion.0 %}
+                                                    <option value={{ forloop.counter }}>{{ pred.Datetime }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Precio</span>
+                                            </div>
+                                            <input type="number" class="form-control" readonly value={{ Price_futuro | floatformat:"2"}}>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Resultado</span>
+                                            </div>
+                                            <input type="text" class="form-control" readonly value={{ Resultado | floatformat:"2"}}>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-5 mb-5 crypt-down">
+                                            <p>Obtendrá una rentabilidad de:</p>
+                                            <h4>{{ Rentabilidad | floatformat:"2"}} %</h4>
+                                        </div>
+                                        <div>
+                                            <button class="crypt-button-red-full" type="submit" >Vender</button>
+                                        </div>
+                                    </form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+	<footer>
+		
+	</footer>
+    <script src="{% static 'amc/core.js'%}"></script>
+	<script src="{% static 'amc/charts.js'%}"></script>
+	<script src="{% static 'amc/dark.js'%}"></script>
+	<script src="{% static 'amc/animated.js'%}"></script>
+	<script src="{% static 'js/jquery.js'%}"></script>
+	<script src="{% static 'js/popper.min.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.bundle.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+	<script src="{% static 'js/main.js'%}"></script>
+	<script src="{% static 'js/amc.js'%}"></script>
+	<script src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+{% endwith %}
+</body>
+</html>

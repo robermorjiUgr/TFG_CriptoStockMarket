@@ -1,0 +1,126 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CriptoTracking</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ui.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+{% with url="http://127.0.0.1:8000" %}
+	<header>
+		<div class="container-full-width">
+			<div class="crypt-header">
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-5">
+						<div class="row">
+							<div class="col-xs-2">
+								<div class="crypt-logo">
+                                    <a href={{ url }}><img src="{% static 'images/ownlogoB.png' %}" alt=""></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block d-lg-block">
+                        <ul class="crypt-heading-menu fright">
+                            <li><a href={{ url }}>Criptomonedas</a></li>
+                            <li><a href="{{ url }}/resumen">Resumen</a></li>
+                            <li><a href="{{ url }}/ranking">Ranking</a></li>
+                            <li><a href="{{ url }}/prediction">Predictor</a></li>
+                            <li><a href="{{ url }}/simulacion">Simulador</a></li>
+                            {% if request.user.is_authenticated %}
+                                <li>
+                                    <em>
+                                       <a href="{{url}}/userProfile">Mi cuenta</a>
+                                       <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
+                                    </em>
+                                </li>
+                            {% else %}
+                                <li class="crypt-box-menu menu-blue"><a href="{{url}}/register">Registrar</a></li>
+                                <li class="crypt-box-menu menu-green"><a href="{{url}}/accounts/login">Iniciar Sesión</a></li>
+                            {% endif %}
+                        </ul>
+                    </div><i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i>
+					<i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- Main Content -->
+	<div class="container">
+		<div class="row">
+			<div class="col md-12 text-center">
+                <h1 class="mt-5 mb-5"><b>Comparación de criptomonedas</b></h1>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12" style="align-items: center">
+				<div class="table-responsive">
+					<table class="table table-striped crypt-table-market-cap" id="table_id">
+					    <tr>
+                          <td></td>
+					      <th scope="col" style="background-color: cornflowerblue; border: 2px solid; width: 15%"><img width="100" src="{% static datos_cripto1.1 %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin">{{ Cripto1 }}</th>
+					      <th scope="col" style="background-color: cornflowerblue; border: 2px solid; width: 15%"><img width="80" src="{% static datos_cripto2.1 %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin">{{ Cripto2 }}</th>
+					    </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">{{ datos_cripto1.0.0.Datetime }}</th>
+                            <td>{{ datos_cripto1.0.0.Prediction|floatformat:"3" }}$</td>
+                            <td>{{ datos_cripto2.0.0.Prediction|floatformat:"3" }}$</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">{{ datos_cripto1.0.1.Datetime }}</th>
+                            <td>{{ datos_cripto1.0.1.Prediction|floatformat:"3" }}$</td>
+                            <td>{{ datos_cripto2.0.1.Prediction|floatformat:"3" }}$</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">{{ datos_cripto1.0.2.Datetime }}</th>
+                            <td>{{ datos_cripto1.0.2.Prediction|floatformat:"3" }}$</td>
+                            <td>{{ datos_cripto2.0.2.Prediction|floatformat:"3" }}$</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">{{ datos_cripto1.0.3.Datetime }}</th>
+                            <td>{{ datos_cripto1.0.3.Prediction|floatformat:"3" }}$</td>
+                            <td>{{ datos_cripto2.0.3.Prediction|floatformat:"3" }}$</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">{{ datos_cripto1.0.4.Datetime }}</th>
+                            <td>{{ datos_cripto1.0.4.Prediction|floatformat:"3" }}$</td>
+                            <td>{{ datos_cripto2.0.4.Prediction|floatformat:"3" }}$</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" style="background-color: cornflowerblue; border: 2px solid black; width:10%">{{ datos_cripto1.0.5.Datetime }}</th>
+                            <td>{{ datos_cripto1.0.5.Prediction|floatformat:"3" }}$</td>
+                            <td>{{ datos_cripto2.0.5.Prediction|floatformat:"3" }}$</td>
+                        </tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<hr />
+	</div>
+	
+	<footer>
+		
+	</footer>
+    <script src="{% static 'amc/core.js'%}"></script>
+	<script src="{% static 'amc/charts.js'%}"></script>
+	<script src="{% static 'amc/dark.js'%}"></script>
+	<script src="{% static 'amc/animated.js'%}"></script>
+	<script src="{% static 'js/jquery.js'%}"></script>
+	<script src="{% static 'js/popper.min.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.bundle.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+	<script src="{% static 'js/main.js'%}"></script>
+	<script src="{% static 'js/amc.js'%}"></script>
+	<script src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+{% endwith %}
+</body>
+</html>

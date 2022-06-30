@@ -1,0 +1,124 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CriptoTracking</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ui.css' %}">
+</head>
+<body>
+{% with url="http://127.0.0.1:8000" %}
+	<header>
+		<div class="container-full-width">
+			<div class="crypt-header">
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-5">
+						<div class="row">
+							<div class="col-xs-2">
+								<div class="crypt-logo">
+                                    <a href={{ url }}><img src="{% static 'images/ownlogoB.png' %}" alt=""></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block d-lg-block">
+                        <ul class="crypt-heading-menu fright">
+                            <li><a href={{ url }}>Criptomonedas</a></li>
+                            <li><a href="{{ url }}/resumen">Resumen</a></li>
+                            <li><a href="{{ url }}/ranking">Ranking</a></li>
+                            <li><a href="{{ url }}/prediction">Predictor</a></li>
+                            <li><a href="{{ url }}/simulacion">Simulador</a></li>
+                            {% if request.user.is_authenticated %}
+                                <li>
+                                    <em>
+                                       <a href="{{url}}/userProfile">Mi cuenta</a>
+                                       <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
+                                    </em>
+                                </li>
+                            {% else %}
+                                <li class="crypt-box-menu menu-blue"><a href="{{url}}/register">Registrar</a></li>
+                                <li class="crypt-box-menu menu-green"><a href="{{url}}/accounts/login">Iniciar Sesión</a></li>
+                            {% endif %}
+                        </ul>
+                    </div><i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i>
+					<i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- Main Content -->
+	<div class="container">
+		<div class="row">
+			<div class="col md-12 text-center">
+                <h1 class="mt-5 mb-5"><img width="80" src="{% static 'images/ranking.png' %}" style="margin-right: 2%">
+                    <b>Ranking CriptoTracking</b>
+                </h1>
+            </div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<table class="table table-striped crypt-table-market-cap" id="table_id">
+					  <thead>
+					    <tr>
+                          <th scope="col"></th>
+                          <th scope="col">Posición</th>
+					      <th scope="col"></th>
+					      <th scope="col" class="text-left pl-2">Nombre</th>
+                          <th scope="col">Rentabilidad</th>
+                          <th scope="col">Volatilidad</th>
+					      <th scope="col">Rating(0-10)</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+                      {%  for key,coin in Data %}
+                            <tr>
+                            {% if forloop.counter <= 3 %}
+                              <td style="width:10px; background-color: green"></td>
+                            {% endif %}
+                            {% if forloop.counter > 3 and forloop.counter <= 6%}
+                              <td style="width:10px; background-color: yellow"></td>
+                            {% endif %}
+                            {% if forloop.counter > 6%}
+                              <td style="width:10px; background-color: red"></td>
+                            {% endif %}
+                              <td style="width:10px"><b><h3>{{ forloop.counter }}</h3></b></td>
+                              <td><img width="80" src="{% static coin.img %}" width="20" class="pr-1 crypt-market-cap-logo" alt="coin"></td>
+                              <td class="text-left pl-2 font-weight-bold">{{ key }}</td>
+                              <td>{{ coin.Profitability|floatformat:"3" }} %</td>
+                              <td>{{ coin.Risk|floatformat:"3" }} %</td>
+                              <td>{{ coin.Puntuacion|floatformat:"2" }}</td>
+                            </tr>
+                      {% endfor %}
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<hr />
+	</div>
+	
+	
+	<footer>
+		
+	</footer>
+    <script src="{% static 'amc/core.js'%}"></script>
+	<script src="{% static 'amc/charts.js'%}"></script>
+	<script src="{% static 'amc/dark.js'%}"></script>
+	<script src="{% static 'amc/animated.js'%}"></script>
+	<script src="{% static 'js/jquery.js'%}"></script>
+	<script src="{% static 'js/popper.min.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.bundle.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+	<script src="{% static 'js/main.js'%}"></script>
+	<script src="{% static 'js/amc.js'%}"></script>
+	<script src="https://s3.tradingview.com/tv.js"></script>
+{% endwith %}
+</body>
+</html>

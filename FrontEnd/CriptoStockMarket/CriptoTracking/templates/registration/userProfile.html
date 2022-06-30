@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head class="crypt-dark">
+    <meta charset="UTF-8">
+    <title>Registro de usuario</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ui.css' %}">
+</head>
+
+<body class="crypt-dark">
+    {% with url="http://127.0.0.1:8000" %}
+	<header>
+        <div class="container-full-width">
+            <div class="crypt-header">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-5">
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <a href={{url}}><div class="crypt-logo"><img src="{% static 'images/ownlogoB.png' %}" alt=""></div></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block d-lg-block">
+                        <ul class="crypt-heading-menu fright">
+                            <li><a href={{url}}>Criptomonedas</a></li>
+                            <li><a href="{{url}}/resumen">Resumen</a></li>
+                            <li><a href="{{ url }}/ranking">Ranking</a></li>
+                            <li><a href="{{ url }}/prediction">Predictor</a></li>
+                            <li><a href="{{ url }}/simulacion">Simulador</a></li>
+                            {% if request.user.is_authenticated %}
+                                <li>
+                                    <em>
+                                       <a href="{{url}}/userProfile">Mi cuenta</a>
+                                    </em>
+                                </li>
+                                <li>
+                                <a href="{{url}}/accounts/logout"><img src="{% static 'images/apagar-icono.png' %}" alt="" class="boton-logout"></a>
+                                </li>
+                            {% else %}
+                                <li class="crypt-box-menu menu-blue"><a href="{{url}}/register">Registrar</a></li>
+                                <li class="crypt-box-menu menu-green"><a href="{{url}}/accounts/login">Iniciar Sesión</a></li>
+                            {% endif %}
+                        </ul>
+                    </div><i class="menu-toggle pe-7s-menu d-xs-block d-sm-block d-md-none d-sm-none"></i></div>
+            </div>
+        </div>
+    </header>
+    {% block content %}
+    <div class="bg_register">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-12">
+                <div class="cryptorio-forms text-center pt-5 pb-5">
+                    <h3 class="p-2"></h3><div class="text-left">
+                        <form method="post" class="cryptorio-main-form">
+                            <h1><b>Datos de usuario</b></h1>
+                            <hr>
+                            {% if user_form.errors %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div id="form_errors">
+                                        {% for key, value in user_form.errors.items %}
+                                            <strong>{{ value }}</strong>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                            {% csrf_token %}
+                            <div class="contenedor-datos">
+                                <h5><b>Username</b></h5>
+                                {{ user_form.username }}
+                            </div>
+                            <div class="contenedor-datos">
+                                <h5><b>Correo electrónico</b></h5>
+                                <label for="email" class = "label_signup"></label>
+                                {{ user_form.email }}
+                            </div>
+                            <div class="contenedor-datos">
+                                <h5><b>Nombre</b></h5>
+                                <label for="name" class = "label_signup"></label>
+                                {{ user_form.first_name }}
+                            </div>
+                            <div class="contenedor-datos">
+                                <h5><b>Apellidos</b></h5>
+                                <label for="lastname" class = "label_signup"></label>
+                                {{ user_form.last_name }}
+                            </div>
+                            <button type="submit" class="crypt-button-blue-full" style ="margin-left: 11%">Modificar datos</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    </div>
+    {% endblock %}
+
+    <footer  style="width:100%; margin-left: 0px;"  >
+            <div class="copyright" style="background-color: #fff;">
+                <div class="container-fluid" style="background-color: #fff; color: #000;">
+                        <span style= "float:left;"><b> © 2022 CriptoTracking </b></span> <div class="crypt-in"> <span style= "float:right;"> <a href="https://github.com/robermorjiUgr/TFG_CriptoStockMarket" target="_blank"> <img src="{% static 'images/github.png' %}" alt=""> </a> <a href="https://www.linkedin.com/in/juliocamposr/" target="_blank"> <img src="{% static 'images/linkedin.png' %}" alt=""> </a> Julio Campos - ETSIIT Granada </span></div>
+                </div>
+            </div>
+    </footer>
+
+	<script src="{% static 'amc/core.js'%}"></script>
+	<script src="{% static 'amc/charts.js'%}"></script>
+	<script src="{% static 'amc/dark.js'%}"></script>
+	<script src="{% static 'amc/animated.js'%}"></script>
+	<script src="{% static 'js/jquery.js'%}"></script>
+	<script src="{% static 'js/popper.min.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.bundle.js'%}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+	<script src="{% static 'js/main.js'%}"></script>
+	<script src="{% static 'js/amc.js'%}"></script>
+	<script src="https://s3.tradingview.com/tv.js"></script>
+{% endwith %}
+</body>
+</html>
