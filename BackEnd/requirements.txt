@@ -7,3 +7,11 @@ numpy
 sklearn
 plotly
 pandas
+pymongo
+datetime
+time
+selenium
+bs4
+statistics
+json
+keras
